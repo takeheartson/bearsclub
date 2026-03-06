@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join the Roaring Bears Club</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@300;400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --orange: #C83803;
+      --navy:   #0B2040;
+      --gold:   #FFB300;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #050d1e;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* particles */
+    #particles {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* navbar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(5,13,30,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,56,3,0.3);
+    }
+    .nav-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem; letter-spacing: 4px; text-transform: uppercase;
+      color: #fff; text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-back {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--orange); }
+
+    /* page wrapper */
+    .page {
+      position: relative; z-index: 1;
+      padding: 110px 20px 100px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* hero heading */
+    .join-hero {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .join-eyebrow {
+      font-size: 0.7rem; letter-spacing: 10px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .join-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      line-height: 0.88; text-transform: uppercase;
+    }
+    .join-title .t1 { display: block; color: var(--orange);
+      text-shadow: 0 0 40px rgba(200,56,3,0.7), 0 0 80px rgba(200,56,3,0.3); }
+    .join-title .t2 { display: block; color: #fff; }
+    .join-sub {
+      margin-top: 20px; font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      letter-spacing: 6px; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* two-col layout */
+    .join-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .join-layout { grid-template-columns: 1fr; } }
+
+    /* perks panel */
+    .perks-panel {
+      background: linear-gradient(145deg, #0e2f6a, #0B2040);
+      border: 2px solid rgba(200,56,3,0.4);
+      border-radius: 16px;
+      padding: 36px 28px;
+    }
+    .panel-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.4rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 6px;
+    }
+    .panel-title::after {
+      content: '';
+      display: block; width: 40px; height: 3px;
+      background: var(--orange); margin-top: 8px; border-radius: 2px;
+      box-shadow: 0 0 10px var(--orange);
+    }
+
+    .price-display {
+      margin: 24px 0 20px;
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    .price-big {
+      font-family: 'Anton', sans-serif;
+      font-size: 5rem; line-height: 1;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(255,179,0,0.6);
+    }
+    .price-sup { font-size: 2rem; color: var(--gold); }
+    .price-period {
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .price-tax {
+      font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      letter-spacing: 2px; margin-top: -12px; margin-bottom: 20px;
+    }
+
+    .perks-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .perks-list li {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.95rem; letter-spacing: 1px;
+      color: rgba(255,255,255,0.85);
+    }
+    .perk-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(200,56,3,0.2);
+      border: 1px solid rgba(200,56,3,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .poster-preview {
+      border-radius: 10px; overflow: hidden;
+      border: 2px solid rgba(255,179,0,0.3);
+      box-shadow: 0 0 30px rgba(255,179,0,0.15);
+      margin-top: 20px;
+    }
+    .poster-preview img { width: 100%; display: block; }
+
+    /* form panel */
+    .form-panel {
+      background: linear-gradient(145deg, #0e2f6a, #0B2040);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 36px 28px;
+      box-shadow: 0 0 40px rgba(255,179,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-bottom: 8px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 14px 16px;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 16px rgba(200,56,3,0.3);
+    }
+    .form-group select option { background: #0B2040; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange), #ff5500);
+      color: #fff;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem; letter-spacing: 5px; text-transform: uppercase;
+      padding: 18px;
+      border-radius: 8px;
+      border: none; cursor: pointer;
+      box-shadow: 0 0 30px rgba(200,56,3,0.5);
+      transition: transform 0.1s, box-shadow 0.1s;
+      position: relative; overflow: hidden;
+      margin-top: 8px;
+    }
+    .submit-btn::after {
+      content: '';
+      position: absolute; top:0; left:-100%; width:60%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: shine 2.5s linear infinite;
+    }
+    @keyframes shine { to { left: 160%; } }
+    .submit-btn:hover { transform: scale(1.02); box-shadow: 0 0 50px rgba(200,56,3,0.8); }
+
+    .form-note {
+      font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); text-align: center; margin-top: 14px;
+      line-height: 1.8;
+    }
+
+    /* success screen */
+    #success {
+      display: none;
+      position: fixed; inset: 0; z-index: 900;
+      background: radial-gradient(ellipse at 50% 50%, #0a1f4a, #020810);
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 20px;
+    }
+    #success.show { display: flex; }
+    .success-bear { font-size: 6rem; animation: successFloat 2s ease-in-out infinite; margin-bottom: 20px; }
+    @keyframes successFloat {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-16px) rotate(3deg); }
+    }
+    .success-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      text-transform: uppercase; letter-spacing: 4px;
+      color: var(--orange);
+      text-shadow: 0 0 40px rgba(200,56,3,0.7);
+      margin-bottom: 12px;
+    }
+    .success-sub {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .success-msg {
+      font-size: 1rem; letter-spacing: 2px;
+      color: rgba(255,255,255,0.6);
+      max-width: 440px; line-height: 1.8; margin-bottom: 36px;
+    }
+    .success-msg strong { color: #fff; }
+    .success-perks {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 40px;
+    }
+    .success-perk {
+      background: rgba(200,56,3,0.15);
+      border: 1px solid rgba(200,56,3,0.4);
+      border-radius: 8px; padding: 14px 20px;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+    .success-perk span { display: block; font-size: 1.6rem; margin-bottom: 6px; }
+    .success-btn {
+      background: var(--orange); color: #fff;
+      font-family: 'Anton', sans-serif; font-size: 1.1rem;
+      letter-spacing: 4px; text-transform: uppercase;
+      padding: 16px 44px; border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 0 24px rgba(200,56,3,0.5);
+      transition: transform 0.1s;
+    }
+    .success-btn:hover { transform: scale(1.05); }
+
+    /* ticker */
+    .ticker {
+      position: fixed; bottom: 0; width: 100%;
+      background: linear-gradient(90deg, #8a2500, var(--orange), #8a2500);
+      color: #fff; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      overflow: hidden; padding: 11px 0; z-index: 200;
+      border-top: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 -4px 30px rgba(200,56,3,0.5);
+    }
+    .ticker-inner {
+      display: inline-block; white-space: nowrap;
+      animation: tick 26s linear infinite;
+    }
+    @keyframes tick {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+
+  <nav>
+    <a class="nav-logo" href="index.html"><span>Roaring</span> Bears</a>
+    <a class="nav-back" href="index.html">&larr; Back to Home</a>
+  </nav>
+
+  <div class="page">
+    <div class="join-hero">
+      <div class="join-eyebrow">★ &nbsp; Become Official &nbsp; ★</div>
+      <div class="join-title">
+        <span class="t1">Join the</span>
+        <span class="t2">Club</span>
+      </div>
+      <p class="join-sub">Roaring Bears &nbsp;·&nbsp; Rulers of the Midway &nbsp;·&nbsp; Est. 1920</p>
+    </div>
+
+    <div class="join-layout">
+
+      <!-- PERKS -->
+      <div class="perks-panel">
+        <div class="panel-title">What You Get</div>
+
+        <div class="price-display">
+          <span class="price-sup">$</span>
+          <span class="price-big">5</span>
+          <span class="price-period">/ month</span>
+        </div>
+        <div class="price-tax">+ $1 tax &nbsp;=&nbsp; $6 total</div>
+
+        <ul class="perks-list">
+          <li>
+            <div class="perk-icon">🐻</div>
+            Official Roaring Bears membership card
+          </li>
+          <li>
+            <div class="perk-icon">🖼️</div>
+            Free posters — mailed to you
+          </li>
+          <li>
+            <div class="perk-icon">🏆</div>
+            Access to all club content
+          </li>
+          <li>
+            <div class="perk-icon">⭐</div>
+            Exclusive member updates
+          </li>
+          <li>
+            <div class="perk-icon">🔥</div>
+            Fear the Paw — for life
+          </li>
+          <li>
+            <div class="perk-icon">📣</div>
+            Bear Down nation — forever
+          </li>
+        </ul>
+
+        <div class="poster-preview">
+          <img src="Copilot_20260305_184201.png" alt="Free poster included">
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="form-panel">
+        <div class="panel-title">Sign Up</div>
+        <br>
+        <form id="join-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="William" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Bears" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@bearsclub.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone (for poster delivery)</label>
+            <input type="tel" placeholder="(312) 000-0000">
+          </div>
+          <div class="form-group">
+            <label>Favourite Bear</label>
+            <select>
+              <option>Caleb Williams #18</option>
+              <option>Colston Loveland #84</option>
+              <option>The Electric Blue Bear</option>
+              <option>All of them (correct answer)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Poster Style</label>
+            <select>
+              <option>Ruler of the Midway</option>
+              <option>Bear Down Classic</option>
+              <option>Fear the Paw</option>
+              <option>Send me all of them</option>
+            </select>
+          </div>
+          <button class="submit-btn" type="submit">Join Now — Bear Down 🐻</button>
+          <div class="form-note">
+            By joining you agree to be a Roaring Bears member forever.<br>
+            Presided over by William &amp; Jaiyen · VP Henry · Co-Founder Talon
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div id="success">
+    <div class="success-bear">🐻</div>
+    <div class="success-title">Welcome to<br>the Club!</div>
+    <div class="success-sub">You are now an official Roaring Bear</div>
+    <div class="success-msg">
+      Your membership is confirmed.<br>
+      <strong>Free posters are on their way!</strong><br>
+      Bear Down. Ruler of the Midway. Fear the Paw.
+    </div>
+    <div class="success-perks">
+      <div class="success-perk"><span>🖼️</span>Free Posters</div>
+      <div class="success-perk"><span>🐻</span>Member Card</div>
+      <div class="success-perk"><span>🏆</span>Club Access</div>
+      <div class="success-perk"><span>🔥</span>Bear Down</div>
+    </div>
+    <a class="success-btn" href="index.html">Go to the Club &rarr;</a>
+  </div>
+
+  <div class="ticker">
+    <span class="ticker-inner">
+      &nbsp;&nbsp;🐻 ROARING BEARS &nbsp;·&nbsp; RULERS OF THE MIDWAY &nbsp;·&nbsp; JOIN FOR $5/MONTH &nbsp;·&nbsp; FREE POSTERS &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; CHICAGO 1920 &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
+    </span>
+  </div>
+
+  <script>
+    /* particles */
+    const pc = document.getElementById('particles');
+    const px = pc.getContext('2d');
+    let PW, PH, embers = [];
+    function resizeP(){ PW = pc.width = window.innerWidth; PH = pc.height = window.innerHeight; }
+    resizeP(); window.addEventListener('resize', resizeP);
+    function newEmber(){ return { x:Math.random()*PW, y:PH+10, r:Math.random()*1.8+0.3,
+      speed:Math.random()*0.5+0.2, drift:(Math.random()-.5)*0.3,
+      alpha:Math.random()*0.4+0.05, color:Math.random()>.5?'#C83803':'#FFB300' }; }
+    for(let i=0;i<60;i++){const e=newEmber();e.y=Math.random()*PH;embers.push(e);}
+    (function draw(){
+      px.clearRect(0,0,PW,PH);
+      for(const e of embers){
+        px.beginPath();px.arc(e.x,e.y,e.r,0,Math.PI*2);
+        px.fillStyle=e.color;px.globalAlpha=e.alpha;px.fill();
+        e.y-=e.speed;e.x+=e.drift;
+        if(e.y<-10)Object.assign(e,newEmber());
+      }
+      px.globalAlpha=1; requestAnimationFrame(draw);
+    })();
+
+    /* form submit */
+    document.getElementById('join-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('success').classList.add('show');
+    });
+  </script>
+
+</body>
+</html>
