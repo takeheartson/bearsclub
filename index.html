@@ -23,6 +23,61 @@
     }
 
     /* ════════════════════════════════════
+       NAVBAR
+    ════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(6,15,29,0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,56,3,0.3);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-badge {
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Anton', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 3px;
+      text-decoration: none;
+      box-shadow: 0 0 16px rgba(200,56,3,0.5);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .nav-badge:hover { transform: scale(1.05); box-shadow: 0 0 28px rgba(200,56,3,0.8); }
+    @media (max-width: 600px) { .nav-links { display: none; } }
+
+    /* ════════════════════════════════════
        HERO — full-screen landing
     ════════════════════════════════════ */
     #hero {
@@ -35,7 +90,83 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: radial-gradient(ellipse at 50% 60%, #1a0800 0%, #0B2040 65%);
+      background: radial-gradient(ellipse at 50% 30%, #1a0500 0%, #050d1e 50%, #020810 100%);
+    }
+
+    /* ── POWER BANNER ── */
+    .power-banner {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0800 50%, #0a0a0a 100%);
+      border-top: 2px solid var(--orange);
+      border-bottom: 2px solid var(--orange);
+      padding: 22px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .power-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(200,56,3,0.08) 50%, transparent 100%);
+      animation: bannerPulse 3s ease-in-out infinite;
+    }
+    @keyframes bannerPulse {
+      0%,100% { opacity:0.5; }
+      50% { opacity:1; }
+    }
+    .power-track {
+      display: inline-flex;
+      gap: 50px;
+      white-space: nowrap;
+      animation: powerScroll 15s linear infinite;
+    }
+    .power-track span {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-shadow: 0 0 20px rgba(200,56,3,0.5);
+    }
+    .power-track span.gold { color: var(--gold); text-shadow: 0 0 20px rgba(255,179,0,0.5); }
+    .power-track span.white { color: #fff; }
+    @keyframes powerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── STATS ROW ── */
+    .stats-section {
+      max-width: 900px;
+      margin: 0 auto 70px;
+      padding: 0 20px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 2px;
+      background: rgba(200,56,3,0.2);
+      border: 2px solid rgba(200,56,3,0.3);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .stat-cell {
+      background: linear-gradient(145deg, #0e2f6a, #0B2040);
+      padding: 28px 16px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1;
+      color: var(--orange);
+      text-shadow: 0 0 20px rgba(200,56,3,0.5);
+    }
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 6px;
     }
 
     /* animated grid lines */
@@ -72,11 +203,14 @@
       50%       { opacity: 1;   transform: translateX(-50%) scale(1.1); }
     }
 
-    canvas#sparks {
+    canvas#sparks, canvas#stars {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
+    canvas#stars { opacity: 0.6; }
 
     .hero-content {
       position: relative;
@@ -913,9 +1047,21 @@
 
   <canvas id="particles"></canvas>
 
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#"><span>Roaring</span> Bears</a>
+    <ul class="nav-links">
+      <li><a href="#content">About</a></li>
+      <li><a href="#content">Leadership</a></li>
+      <li><a href="#content">Follow</a></li>
+    </ul>
+    <a class="nav-badge" href="#content">Join $5/mo</a>
+  </nav>
+
   <!-- ══ FULL-SCREEN HERO ══ -->
   <section id="hero">
     <canvas id="sparks"></canvas>
+    <canvas id="stars"></canvas>
 
     <div class="hero-content">
       <div class="hero-eyebrow">★ &nbsp; The Official &nbsp; ★</div>
@@ -1050,6 +1196,40 @@
     <div class="motto section-wrap reveal">
       ★ &nbsp; "Ruler of the Midway &mdash; Fear the Paw" &nbsp; ★
     </div>
+
+    <!-- POWER BANNER -->
+    <div class="power-banner section-wrap">
+      <div class="power-track">
+        <span>Bear Down</span><span class="gold">★</span><span class="white">Roaring Bears</span><span class="gold">★</span><span>Rulers of the Midway</span><span class="gold">★</span><span>Chicago 1920</span><span class="gold">★</span><span>Fear the Paw</span><span class="gold">★</span>
+        <span>Bear Down</span><span class="gold">★</span><span class="white">Roaring Bears</span><span class="gold">★</span><span>Rulers of the Midway</span><span class="gold">★</span><span>Chicago 1920</span><span class="gold">★</span><span>Fear the Paw</span><span class="gold">★</span>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <section class="stats-section section-wrap reveal">
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="stat-num">1920</div>
+          <div class="stat-label">Founded</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">9</div>
+          <div class="stat-label">Championships</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Members</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">$5</div>
+          <div class="stat-label">Per Month</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Bear Energy</div>
+        </div>
+      </div>
+    </section>
 
     <!-- LEADERSHIP -->
     <section class="leadership-section section-wrap">
@@ -1480,6 +1660,38 @@
       sx.globalAlpha=1;
       requestAnimationFrame(drawSparks);
     })();
+
+    /* ── STARFIELD ── */
+    const stc = document.getElementById('stars');
+    const stx = stc.getContext('2d');
+    let STW, STH, stars = [];
+    function resizeSt(){ STW = stc.width = stc.offsetWidth; STH = stc.height = stc.offsetHeight; }
+    resizeSt();
+    window.addEventListener('resize', resizeSt);
+    for(let i=0;i<180;i++){
+      stars.push({ x:Math.random()*STW, y:Math.random()*STH,
+        r:Math.random()*1.2+0.2, speed:Math.random()*0.15+0.05,
+        twinkle:Math.random()*Math.PI*2 });
+    }
+    (function drawStars(){
+      stx.clearRect(0,0,STW,STH);
+      for(const s of stars){
+        s.twinkle += 0.03;
+        const a = 0.3 + Math.sin(s.twinkle)*0.3;
+        stx.beginPath(); stx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        stx.fillStyle='#fff'; stx.globalAlpha=a; stx.fill();
+        s.y += s.speed;
+        if(s.y > STH){ s.y=0; s.x=Math.random()*STW; }
+      }
+      stx.globalAlpha=1;
+      requestAnimationFrame(drawStars);
+    })();
+
+    /* ── NAVBAR SCROLL EFFECT ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.background =
+        window.scrollY > 60 ? 'rgba(6,15,29,0.95)' : 'rgba(6,15,29,0.7)';
+    });
 
     /* ── SCROLL REVEAL ── */
     const ro = new IntersectionObserver(entries=>{
