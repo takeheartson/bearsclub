@@ -272,6 +272,7 @@
       text-decoration: none;
       border: 2px solid rgba(255,255,255,0.2);
       transition: border-color 0.15s, color 0.15s, transform 0.15s;
+      cursor: pointer;
     }
     .btn-secondary:hover {
       border-color: var(--gold);
@@ -884,7 +885,7 @@
       <p class="hero-sub">Rulers of the Midway &nbsp;·&nbsp; Chicago &nbsp;·&nbsp; Est. 1920</p>
       <div class="hero-buttons">
         <a class="btn-primary" href="#content">Join the Club</a>
-        <a class="btn-secondary" href="#" onclick="document.getElementById('explore-popup').classList.add('open');return false;">Explore &darr;</a>
+        <button class="btn-secondary" onclick="openExplore()">Explore &darr;</button>
       </div>
     </div>
 
@@ -1279,6 +1280,16 @@
   </style>
 
   <script>
+    /* ── EXPLORE POPUP ── */
+    function openExplore() {
+      document.getElementById('explore-popup').classList.add('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('explore-popup').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+      });
+    });
+
     /* ── PASSCODE ── */
     const CODE = '5126';
     let entered = '';
