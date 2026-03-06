@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DA BEARS</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #06121f;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial Black', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glow-border {
+      border: 4px solid #C83803;
+      box-shadow:
+        0 0 20px #C83803,
+        0 0 60px rgba(200,56,3,0.4),
+        inset 0 0 20px rgba(200,56,3,0.1);
+      border-radius: 6px;
+      padding: 6px;
+      background: #0B1F3B;
+      margin: 40px 20px;
+      max-width: 860px;
+      width: 95%;
+    }
+
+    .poster-img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+    }
+
+    .caption {
+      text-align: center;
+      padding: 24px 20px 32px;
+      color: #C83803;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(200,56,3,0.8);
+    }
+
+    .caption span {
+      color: #fff;
+    }
+
+    .stars {
+      color: #FFB347;
+      font-size: 1.2em;
+    }
+
+    /* Animated orange ticker at bottom */
+    .ticker {
+      width: 100%;
+      background: #C83803;
+      color: white;
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      font-weight: bold;
+      overflow: hidden;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+    }
+    .ticker-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ticker 18s linear infinite;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Subtle bear paw watermark */
+    .paw {
+      position: fixed;
+      font-size: 8rem;
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+    }
+    .paw1 { top: 5%; left: 2%; transform: rotate(-20deg); }
+    .paw2 { bottom: 12%; right: 3%; transform: rotate(15deg); }
+    .paw3 { top: 50%; left: 80%; transform: rotate(-10deg); font-size: 5rem; }
+  </style>
+</head>
+<body>
+
+  <div class="paw paw1">🐾</div>
+  <div class="paw paw2">🐾</div>
+  <div class="paw paw3">🐾</div>
+
+  <div class="glow-border">
+    <img class="poster-img" src="bears_poster.jpg" alt="Go Bears Poster">
+  </div>
+
+  <div class="caption">
+    <span class="stars">★★★</span>
+    <span> THE NFL IS GOOD BUT </span>
+    <span class="stars">★</span>
+    <strong> DA BEARS RULE </strong>
+    <span class="stars">★★★</span>
+  </div>
+
+  <div class="ticker">
+    <span class="ticker-inner">
+      &nbsp;&nbsp;&nbsp;🐻 DA BEARS &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; CALEB WILLIAMS #18 &nbsp;·&nbsp; COLSTON LOVELAND #84 &nbsp;·&nbsp; DA BEARS &nbsp;·&nbsp; GO BEARS &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; 🐻&nbsp;&nbsp;&nbsp;
+    </span>
+  </div>
+
+</body>
+</html>

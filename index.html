@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Da Bears Club</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #C83803;
+      --navy:   #0B2040;
+      --gold:   #FFB300;
+    }
+
+    body {
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Oswald', 'Arial Black', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #060f1d 0%, #0b2040 60%, #1a0a00 100%);
+      border-bottom: 4px solid var(--orange);
+      padding: 60px 20px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '🐻';
+      position: absolute;
+      font-size: 22rem;
+      opacity: 0.04;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .site-eyebrow {
+      font-size: clamp(0.7rem, 2vw, 1rem);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .site-title {
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: clamp(4rem, 14vw, 10rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        4px 4px 0 var(--orange),
+        8px 8px 0 rgba(200,56,3,0.3);
+      letter-spacing: 2px;
+    }
+
+    .site-title span {
+      color: var(--orange);
+    }
+
+    .site-sub {
+      margin-top: 20px;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+    }
+
+    .paw-divider {
+      margin: 20px auto 0;
+      font-size: 1.5rem;
+      letter-spacing: 10px;
+      color: var(--orange);
+      opacity: 0.7;
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero {
+      max-width: 700px;
+      margin: 50px auto 20px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .hero img {
+      width: 100%;
+      border-radius: 8px;
+      border: 3px solid var(--orange);
+      box-shadow:
+        0 0 40px rgba(200,56,3,0.5),
+        0 0 100px rgba(200,56,3,0.2);
+    }
+
+    /* ── MOTTO ── */
+    .motto {
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(255,179,0,0.5);
+    }
+
+    /* ── NAV CARDS ── */
+    .cards-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    .cards-heading {
+      text-align: center;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      letter-spacing: 5px;
+      color: var(--orange);
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
+      border: 2px solid var(--orange);
+      border-radius: 8px;
+      padding: 30px 24px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 30px rgba(200,56,3,0.6), 0 8px 30px rgba(0,0,0,0.5);
+      border-color: var(--gold);
+    }
+
+    .card-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+    }
+
+    .card-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-align: center;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      letter-spacing: 1px;
+      line-height: 1.5;
+    }
+
+    .card-arrow {
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-top: auto;
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      overflow: hidden;
+      padding: 10px 0;
+      z-index: 100;
+    }
+    .ticker-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: tick 22s linear infinite;
+    }
+    @keyframes tick {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 24px 20px 60px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="site-eyebrow">Welcome to</div>
+    <h1 class="site-title">Da <span>Bears</span><br>Club</h1>
+    <p class="site-sub">Chicago &bull; Est. 1920</p>
+    <div class="paw-divider">🐾 &nbsp; 🐾 &nbsp; 🐾</div>
+  </header>
+
+  <div class="hero">
+    <img src="Copilot_20260305_184201.png" alt="The Roaring Bears – Ruler of the Midway">
+  </div>
+
+  <div class="motto">
+    "Ruler of the Midway &mdash; Fear the Paw"
+  </div>
+
+  <section class="cards-section">
+    <div class="cards-heading">Explore Da Club</div>
+    <div class="cards">
+
+      <a class="card" href="bears/index.html">
+        <div class="card-icon">🏈</div>
+        <div class="card-title">Da Bears Poster</div>
+        <div class="card-desc">The official Da Bears poster wall. Caleb Williams. Soldier Field. Bear Down.</div>
+        <div class="card-arrow">Enter &rarr;</div>
+      </a>
+
+      <a class="card" href="bear.html">
+        <div class="card-icon">🐻</div>
+        <div class="card-title">Bear Chomps</div>
+        <div class="card-desc">A very hungry bear having a great day. The bunny is not having a great day.</div>
+        <div class="card-arrow">Watch &rarr;</div>
+      </a>
+
+      <a class="card" href="bear-viking.html">
+        <div class="card-icon">⚔️</div>
+        <div class="card-title">Bear Viking</div>
+        <div class="card-desc">What happens when a bear becomes a viking? Only one way to find out.</div>
+        <div class="card-arrow">Raid &rarr;</div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>Da Bears Club &copy; 2026 &nbsp;&bull;&nbsp; Bear Down, Chicago Bears</footer>
+
+  <div class="ticker">
+    <span class="ticker-inner">
+      &nbsp;&nbsp;🐻 DA BEARS CLUB &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; CALEB WILLIAMS #18 &nbsp;·&nbsp; COLSTON LOVELAND #84 &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; RULER OF THE MIDWAY &nbsp;·&nbsp; DA BEARS CLUB &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
+    </span>
+  </div>
+
+</body>
+</html>

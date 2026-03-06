@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GO BEARS</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:linear-gradient(180deg,#04060f 0%,#080d1c 40%,#0e1628 45%,#0e1628 52%,#1a3a1a 52%,#0e240e 100%);height:100vh;overflow:hidden;font-family:Georgia,serif}
+
+    .title{position:absolute;top:0px;width:100%;text-align:center;font-size:1.55rem;font-weight:bold;letter-spacing:2px;color:#fff;text-shadow:2px 2px 0 #1a0000;text-transform:uppercase;z-index:50;line-height:1.5}
+    .title .go{color:#f5a020;font-size:1.9rem}
+    .title .boo{color:#ff4040}
+
+    #score{position:absolute;top:88px;right:20px;z-index:50;background:rgba(0,0,0,0.7);border:1px solid #f5a020;border-radius:10px;padding:10px 16px;color:#fff;font-size:0.82rem;letter-spacing:1px;line-height:1.9}
+    .eaten{color:#f5e642;font-weight:bold}
+
+    /* STADIUM */
+    .stadium-roof{position:absolute;top:0;width:100%;height:45%;background:linear-gradient(180deg,#020408 0%,#060c18 55%,#0e1a30 100%);z-index:0;box-shadow:inset 0 -20px 60px rgba(0,0,0,0.6)}
+    .stadium-light{position:absolute;z-index:1}
+    .light-pole{width:6px;height:60px;background:linear-gradient(180deg,#888,#555);margin:0 auto}
+    .light-head{width:30px;height:10px;background:#ddd;border-radius:2px;margin:0 auto}
+    .light-glow{width:80px;height:80px;background:radial-gradient(circle,rgba(255,250,200,0.4) 0%,transparent 70%);position:absolute;top:55px;left:-25px}
+    #scoreboard{position:absolute;top:12%;left:50%;transform:translateX(-50%);z-index:10;width:320px}
+    .sb-board{background:#111;border:4px solid #444;border-radius:4px;padding:6px 12px;text-align:center}
+    .sb-score{color:#f5e642;font-size:1.1rem;font-weight:bold;letter-spacing:2px}
+    .sb-label{color:#888;font-size:0.7rem;letter-spacing:3px}
+    .bleachers{position:absolute;width:100%;z-index:2}
+    .bleachers.upper{top:12%}.bleachers.lower{top:22%}
+    .bleacher-row{width:100%;height:14px;display:flex}
+    .seat{flex:1;height:100%;border-right:1px solid rgba(0,0,0,0.2)}
+    .goalpost{position:absolute;bottom:48%;z-index:5}
+    .gp-post{width:5px;background:linear-gradient(180deg,#f5c518,#c89010);border-radius:3px 3px 0 0;margin:0 auto}
+    .gp-crossbar{height:5px;background:linear-gradient(180deg,#f5c518,#c89010);border-radius:3px;position:relative}
+    .gp-crossbar::before,.gp-crossbar::after{content:'';position:absolute;top:-50px;width:5px;height:50px;background:linear-gradient(180deg,#f5c518,#c89010);border-radius:3px 3px 0 0}
+    .gp-crossbar::before{left:0}.gp-crossbar::after{right:0}
+    .goalpost.left{left:20px}.goalpost.right{right:20px}
+    .ground{position:absolute;bottom:0;width:100%;height:48%;background:repeating-linear-gradient(180deg,#1d6420 0px,#1d6420 28px,#267828 28px,#267828 56px);overflow:hidden;z-index:3;box-shadow:inset 0 0 140px rgba(0,0,0,0.55),0 -8px 40px rgba(40,120,40,0.25)}
+    .ground::before{content:'';position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent)}
+    .yard-lines{position:absolute;top:0;width:200%;height:100%;background:repeating-linear-gradient(90deg,transparent 0,transparent 88px,rgba(255,255,255,0.18) 88px,rgba(255,255,255,0.18) 92px);animation:scrollYard 4s linear infinite}
+    @keyframes scrollYard{to{transform:translateX(-92px)}}
+    .endzone{position:absolute;top:30%;font-size:1.8rem;font-weight:900;letter-spacing:8px;color:rgba(255,255,255,0.12);text-transform:uppercase;white-space:nowrap}
+    .endzone.l{left:-30px;transform:rotate(90deg) translateY(-80px)}
+    .endzone.r{right:-30px;transform:rotate(-90deg) translateY(80px)}
+
+    #scene{position:absolute;bottom:47%;width:100%;height:260px;z-index:10}
+
+    /* VIKINGS HELMET */
+    .fball-helmet{position:relative;width:62px;height:54px;margin:0 auto}
+    .fball-dome{width:62px;height:54px;background:radial-gradient(ellipse at 38% 32%,#6a3aaa 0%,#4a1a88 45%,#2a0a5a 100%);border-radius:50% 50% 44% 44%/58% 58% 42% 42%;position:relative;box-shadow:inset -8px -8px 18px rgba(0,0,0,0.45),3px 3px 8px rgba(0,0,0,0.4);overflow:hidden}
+    .fball-dome::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:9px;height:100%;background:linear-gradient(90deg,#c8920a,#f5c518,#c8920a);border-radius:4px}
+    .fball-dome::after{content:'';position:absolute;top:6px;left:10px;width:18px;height:9px;background:rgba(255,255,255,0.25);border-radius:50%;transform:rotate(-20deg)}
+    .fball-horn{position:absolute;top:14px;right:4px;width:22px;height:14px;border:3px solid #f5c518;border-left:none;border-radius:0 50% 50% 0}
+    .fball-mask{position:absolute;bottom:-14px;left:6px;width:50px;height:18px}
+    .fball-bar{position:absolute;height:4px;background:linear-gradient(180deg,#d0c8d8,#a098a8);border-radius:2px}
+    .fball-bar.b1{width:50px;top:0;border-radius:0 0 8px 8px}.fball-bar.b2{width:50px;top:8px}
+    .fball-bar.v1{width:4px;height:18px;top:0;left:14px}.fball-bar.v2{width:4px;height:18px;top:0;left:30px}
+    .fball-strap{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);width:22px;height:8px;border:3px solid #c8920a;border-top:none;border-radius:0 0 8px 8px}
+
+    /* CHEESEHEAD */
+    .cheesehead{position:relative;margin:0 auto;width:72px}
+    .ch-wedge{width:72px;height:44px;background:linear-gradient(170deg,#f5c518 0%,#d4a010 50%,#b07808 100%);clip-path:polygon(5% 100%,0% 20%,50% 0%,100% 20%,95% 100%);position:relative;box-shadow:inset -5px -5px 12px rgba(0,0,0,0.25)}
+    .ch-hole{position:absolute;background:#c8920a;border-radius:50%;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.3)}
+    .chh1{width:14px;height:12px;top:18px;left:10px}.chh2{width:10px;height:9px;top:10px;left:36px}.chh3{width:8px;height:7px;top:24px;left:52px}
+    .ch-base{width:76px;height:8px;background:#b07808;border-radius:2px;margin:0 auto}
+
+    /* STINKY CHEESE */
+    .cheese-wrap{position:relative}
+    .stink{position:absolute;top:-30px;left:0;width:100%;pointer-events:none}
+    .stink-line{position:absolute;font-size:13px;color:#80d020;animation:stinkRise 1.1s ease-in-out infinite;opacity:0;white-space:nowrap}
+    .stink-line.s1{left:4px;animation-delay:0s}.stink-line.s2{left:22px;animation-delay:0.35s}.stink-line.s3{left:40px;animation-delay:0.7s}
+    @keyframes stinkRise{0%{opacity:0;transform:translateY(0) rotate(-3deg)}25%{opacity:1}80%{opacity:0.6}100%{opacity:0;transform:translateY(-28px) rotate(3deg)}}
+
+    /* PACKERS WORD */
+    #packersWord{position:absolute;display:none;z-index:30;white-space:nowrap;transform-origin:left center}
+    #packersWord span{
+      font-size:5.5rem;font-weight:900;font-family:Impact,sans-serif;
+      color:#1a5c0a;
+      -webkit-text-stroke:4px #f5c518;
+      text-shadow:4px 4px 0 rgba(0,0,0,0.4);
+      letter-spacing:4px;
+      display:inline-block;
+    }
+
+    /* PACKERS FAN */
+    #packer{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;transform-origin:bottom center}
+    #packer.running{animation:vRun 0.35s infinite ease-in-out}
+    #packer.wiggle{animation:vWiggle 0.12s infinite linear}
+    .pk-head{width:42px;height:40px;background:radial-gradient(ellipse at 38% 27%,#ffd8b0 0%,#eab880 30%,#d09860 65%,#b07840 100%);border-radius:50%;margin:0 auto;position:relative;box-shadow:inset -3px -4px 10px rgba(0,0,0,0.2)}
+    .pk-eye{position:absolute;width:9px;height:9px;background:#fff;border-radius:50%;top:12px;border:1px solid #aaa;overflow:hidden;box-shadow:0 0 3px rgba(0,0,0,0.15)}
+    .pk-eye::before{content:'';position:absolute;width:6px;height:6px;background:radial-gradient(circle at 36% 30%,#6888d8 0%,#3050b8 48%,#0a0a0a 78%);border-radius:50%;top:1px;left:1px;animation:eyePanic 0.18s infinite alternate}
+    .pk-eye.l{left:6px}.pk-eye.r{left:22px}
+    .pk-nose{position:absolute;width:11px;height:9px;background:radial-gradient(ellipse at 50% 38%,#e8c090 0%,#b88858 100%);border-radius:40% 40% 50% 50%;top:21px;left:50%;transform:translateX(-50%);box-shadow:inset -1px -2px 4px rgba(0,0,0,0.2)}
+    .pk-nose::before{content:'';position:absolute;width:3px;height:3px;background:rgba(70,25,8,0.45);border-radius:50%;bottom:1px;left:1px;box-shadow:4px 0 0 rgba(70,25,8,0.45)}
+    .pk-mouth{position:absolute;width:16px;height:10px;background:#6a0a0a;border-radius:0 0 50% 50%;bottom:4px;left:50%;transform:translateX(-50%);overflow:hidden;animation:vMouth 0.3s infinite alternate}
+    .pk-mouth::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:6px;background:#ff6060;border-radius:50% 50% 0 0}
+    .pk-body{width:52px;height:55px;background:linear-gradient(155deg,#1e6c0c 0%,#124208 50%,#0a2a04 100%);border-radius:30% 30% 20% 20%;margin:0 auto;position:relative;box-shadow:inset -4px -4px 12px rgba(0,0,0,0.35),inset 2px 2px 6px rgba(255,255,255,0.06)}
+    .pk-body::before{content:'12';position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:900;color:#f5c518}
+    .pk-body::after{content:'';position:absolute;bottom:10px;left:0;width:100%;height:7px;background:#0e3a06;border-top:1px solid #f5c518;border-bottom:1px solid #f5c518}
+    .pk-arm{position:absolute;width:15px;height:40px;background:linear-gradient(180deg,#1a5c0a,#0e3a06);border-radius:30%;top:4px}
+    .pk-arm.l{left:-13px;animation:vArmL 0.35s infinite alternate;transform-origin:top center}
+    .pk-arm.r{right:-13px;animation:vArmR 0.35s infinite alternate;transform-origin:top center}
+    .pk-legs{display:flex;justify-content:center;gap:6px;margin:0 auto;width:50px}
+    .pk-leg{width:17px;height:38px;background:linear-gradient(180deg,#2a2a3a,#1a1a2a);border-radius:10% 10% 20% 20%;transform-origin:top center;position:relative}
+    .pk-leg:nth-child(1){animation:vL1 0.35s infinite ease-in-out}
+    .pk-leg:nth-child(2){animation:vL2 0.35s infinite ease-in-out}
+    .pk-boot{position:absolute;bottom:-10px;left:-2px;width:20px;height:13px;background:linear-gradient(180deg,#3a2010,#2a1008);border-radius:30% 60% 60% 30%}
+
+    /* VIKING */
+    #viking{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;transform-origin:bottom center}
+    #viking.running{animation:vRun 0.35s infinite ease-in-out}
+    #viking.wiggle{animation:vWiggle 0.12s infinite linear}
+    @keyframes vRun{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-10px) rotate(-1deg)}}
+    @keyframes vWiggle{0%{transform:translate(0,0) rotate(-6deg)}33%{transform:translate(3px,-2px) rotate(6deg)}66%{transform:translate(-2px,1px) rotate(-4deg)}}
+    @keyframes vMouth{from{height:8px}to{height:14px}}
+    @keyframes eyePanic{from{transform:translate(0,0)}to{transform:translate(1px,-1px)}}
+    @keyframes vArmL{from{transform:rotate(-40deg)}to{transform:rotate(20deg)}}
+    @keyframes vArmR{from{transform:rotate(20deg)}to{transform:rotate(-40deg)}}
+    @keyframes vL1{0%,100%{transform:rotate(-35deg)}50%{transform:rotate(25deg)}}
+    @keyframes vL2{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-35deg)}}
+    .v-head{width:44px;height:42px;background:radial-gradient(ellipse at 38% 27%,#fcd8a8 0%,#eab878 30%,#d09858 65%,#b07840 100%);border-radius:48% 48% 44% 44%;margin:0 auto;position:relative;box-shadow:inset -3px -4px 10px rgba(0,0,0,0.22)}
+    .v-eye{position:absolute;width:9px;height:9px;background:#fff;border-radius:50%;top:12px;border:1px solid #aaa;overflow:hidden;box-shadow:0 0 3px rgba(0,0,0,0.2)}
+    .v-eye::before{content:'';position:absolute;width:6px;height:6px;background:radial-gradient(circle at 36% 30%,#7090e0 0%,#3858c0 48%,#0a0a0a 78%);border-radius:50%;top:1px;left:1px}
+    .v-eye.l{left:6px}.v-eye.r{left:20px}
+    .v-brow{position:absolute;width:9px;height:3px;background:#8a5a2a;border-radius:2px;top:8px}
+    .v-brow.l{left:6px;transform:rotate(15deg)}.v-brow.r{left:20px;transform:rotate(-15deg)}
+    .v-nose{position:absolute;width:11px;height:9px;background:radial-gradient(ellipse at 50% 38%,#d4a878 0%,#a87848 100%);border-radius:40% 40% 50% 50%;top:21px;left:50%;transform:translateX(-50%);box-shadow:inset -1px -2px 4px rgba(0,0,0,0.25)}
+    .v-nose::before{content:'';position:absolute;width:3px;height:3px;background:rgba(70,25,8,0.5);border-radius:50%;bottom:1px;left:1px;box-shadow:4px 0 0 rgba(70,25,8,0.5)}
+    .v-mouth{position:absolute;width:16px;height:10px;background:#6a0a0a;border-radius:0 0 50% 50%;bottom:4px;left:50%;transform:translateX(-50%);overflow:hidden;animation:vMouth 0.3s infinite alternate}
+    .v-mouth::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:6px;background:#ff6060;border-radius:50% 50% 0 0}
+    .v-beard{width:40px;height:18px;background:linear-gradient(175deg,#eed060 0%,#d0a830 50%,#b08820 100%);border-radius:0 0 50% 50%;margin:-2px auto 0;position:relative;box-shadow:inset -2px -3px 8px rgba(0,0,0,0.2)}
+    .v-beard::before,.v-beard::after{content:'';position:absolute;bottom:-10px;width:11px;height:15px;background:linear-gradient(180deg,#d0a830,#b08820);border-radius:0 0 50% 50%}
+    .v-beard::before{left:3px;transform:rotate(-8deg)}.v-beard::after{right:3px;transform:rotate(8deg)}
+    .v-body{width:52px;height:58px;background:linear-gradient(155deg,#9c4020 0%,#7a2e0a 40%,#581e06 100%);border-radius:30% 30% 20% 20%;margin:0 auto;position:relative;box-shadow:inset -4px -5px 14px rgba(0,0,0,0.4),inset 3px 3px 8px rgba(255,255,255,0.06)}
+    .v-body::after{content:'';position:absolute;bottom:12px;left:0;width:100%;height:8px;background:#2a1005;border-top:1px solid #c8922a;border-bottom:1px solid #c8922a}
+    .v-arm{position:absolute;width:16px;height:42px;background:linear-gradient(180deg,#8a3a1a,#6a2a0a);border-radius:30%;top:4px}
+    .v-arm.l{left:-14px;animation:vArmL 0.35s infinite alternate;transform-origin:top center}
+    .v-arm.r{right:-14px;animation:vArmR 0.35s infinite alternate;transform-origin:top center}
+    .v-legs{display:flex;justify-content:center;gap:6px;margin:0 auto;width:52px}
+    .v-leg{width:18px;height:40px;background:linear-gradient(180deg,#4a3a6a,#3a2a5a);border-radius:10% 10% 20% 20%;transform-origin:top center;position:relative}
+    .v-leg:nth-child(1){animation:vL1 0.35s infinite ease-in-out}
+    .v-leg:nth-child(2){animation:vL2 0.35s infinite ease-in-out}
+    .v-boot{position:absolute;bottom:-10px;left:-2px;width:20px;height:14px;background:linear-gradient(180deg,#3a2010,#2a1008);border-radius:30% 60% 60% 30%}
+    #vAxe{position:absolute;bottom:60px;right:-46px;transform-origin:bottom center;animation:axeSwing 0.7s infinite alternate}
+    @keyframes axeSwing{from{transform:rotate(-30deg)}to{transform:rotate(20deg)}}
+    .axe-handle{width:5px;height:44px;background:linear-gradient(180deg,#8a5a20,#5a3a10);border-radius:3px;margin:0 auto}
+    .axe-head{position:absolute;top:2px;left:-16px;width:22px;height:20px;background:linear-gradient(135deg,#d8e0e8,#9098a8,#606870);clip-path:polygon(100% 0%,100% 100%,20% 80%,0% 50%,20% 20%)}
+
+    /* LIONS NFL HELMET */
+    .lions-helmet{position:relative;width:58px;height:50px;margin:0 auto}
+    .lions-dome{width:58px;height:50px;background:radial-gradient(ellipse at 38% 32%,#1a90d8 0%,#0076b6 45%,#004a80 100%);border-radius:50% 50% 44% 44%/58% 58% 42% 42%;position:relative;box-shadow:inset -7px -7px 16px rgba(0,0,0,0.4),3px 3px 8px rgba(0,0,0,0.4);overflow:hidden}
+    /* Silver stripe */
+    .lions-dome::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:8px;height:100%;background:linear-gradient(90deg,#c0c8d0,#e0e8f0,#c0c8d0);border-radius:3px}
+    /* Shine */
+    .lions-dome::after{content:'';position:absolute;top:5px;left:8px;width:16px;height:8px;background:rgba(255,255,255,0.3);border-radius:50%;transform:rotate(-20deg)}
+    /* Lion paw logo on side */
+    .lions-paw{position:absolute;top:12px;right:5px;width:18px;height:18px;background:rgba(192,200,208,0.7);border-radius:50% 50% 60% 60%;box-shadow:inset 1px 1px 3px rgba(0,0,0,0.3)}
+    .lions-paw::before{content:'';position:absolute;top:-5px;left:2px;width:14px;height:7px;background:rgba(192,200,208,0.7);border-radius:50%;box-shadow:-5px 0 0 rgba(192,200,208,0.7),5px 0 0 rgba(192,200,208,0.7)}
+    /* Face mask */
+    .lions-mask{position:absolute;bottom:-13px;left:5px;width:48px;height:17px}
+    .lions-bar{position:absolute;height:4px;background:linear-gradient(180deg,#c8c0d0,#9890a8);border-radius:2px}
+    .lions-bar.b1{width:48px;top:0;border-radius:0 0 8px 8px}.lions-bar.b2{width:48px;top:8px}
+    .lions-bar.v1{width:4px;height:17px;top:0;left:13px}.lions-bar.v2{width:4px;height:17px;top:0;left:29px}
+
+    /* LION */
+    #lion{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;transform-origin:bottom center}
+    #lion.running{animation:lRun 0.32s infinite ease-in-out}
+    #lion.wiggle{animation:vWiggle 0.12s infinite linear}
+    @keyframes lRun{0%,100%{transform:translateY(0) rotate(1.5deg)}50%{transform:translateY(-11px) rotate(-1.5deg)}}
+    .l-tail{position:absolute;right:-26px;bottom:50px;width:28px;height:10px;border:4px solid #c87820;border-left:none;border-radius:0 50% 50% 0;transform-origin:left center;animation:tailWag 0.32s infinite alternate}
+    .l-tail::after{content:'';position:absolute;right:-8px;top:-6px;width:16px;height:16px;background:radial-gradient(circle,#8a4a10 0%,#5a2a00 100%);border-radius:50%}
+    @keyframes tailWag{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
+    .l-mane{width:62px;height:60px;background:radial-gradient(ellipse at 50% 44%,#f0a030 0%,#cc7818 22%,#a05010 44%,#7a3608 66%,#481e00 100%);border-radius:50%;margin:0 auto;position:relative;box-shadow:inset -5px -5px 14px rgba(0,0,0,0.35)}
+    .l-mane::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:radial-gradient(ellipse at 50% 44%,transparent 46%,rgba(36,10,0,0.5) 100%);z-index:0}
+    .l-head{width:42px;height:40px;background:radial-gradient(ellipse at 38% 27%,#fce078 0%,#ecb040 30%,#cc8828 65%,#9e6518 100%);border-radius:50%;position:absolute;top:9px;left:9px;box-shadow:inset -3px -4px 10px rgba(0,0,0,0.28)}
+    .l-eye{position:absolute;width:10px;height:10px;background:#fff;border-radius:50%;top:10px;border:1px solid #888;overflow:hidden}
+    .l-eye::before{content:'';position:absolute;width:7px;height:7px;background:radial-gradient(circle at 36% 30%,#c88820 0%,#7a5008 42%,#1a0c00 72%,#000 100%);border-radius:50%;top:1px;left:0px;animation:eyePanic 0.18s infinite alternate}
+    .l-eye.l{left:5px}.l-eye.r{left:22px}
+    .l-nose{position:absolute;width:11px;height:8px;background:radial-gradient(ellipse at 50% 40%,#d86038 0%,#a03818 100%);border-radius:50%;bottom:16px;left:50%;transform:translateX(-50%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.4)}
+    .l-nose::before{content:'';position:absolute;width:3px;height:3px;background:rgba(0,0,0,0.55);border-radius:50%;bottom:1px;left:1px;box-shadow:4px 0 0 rgba(0,0,0,0.55)}
+    .l-mouth{position:absolute;width:18px;height:0;background:#6a0000;border-radius:0 0 50% 50%;bottom:5px;left:50%;transform:translateX(-50%);animation:lMouth 0.25s infinite alternate}
+    @keyframes lMouth{from{height:8px}to{height:16px}}
+    .l-mouth::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:7px;background:#ff5050;border-radius:50% 50% 0 0}
+    .l-ear{position:absolute;width:15px;height:15px;background:radial-gradient(circle at 40% 35%,#e09030 0%,#b06818 60%,#7a4008 100%);border-radius:50% 50% 0 0;top:-6px}
+    .l-ear::after{content:'';position:absolute;width:7px;height:7px;background:#f0b868;border-radius:50% 50% 0 0;top:4px;left:4px}
+    .l-ear.l{left:4px}.l-ear.r{right:4px}
+    .l-body{width:70px;height:52px;background:radial-gradient(ellipse at 42% 38%,#f4d070 0%,#d8a840 30%,#b88028 65%,#8a5818 100%);border-radius:50% 50% 40% 40%;margin:0 auto;position:relative;box-shadow:inset -6px -6px 16px rgba(0,0,0,0.32)}
+    .l-legs{display:flex;justify-content:center;gap:8px;margin:0 auto;width:64px}
+    .l-leg{width:16px;height:36px;background:linear-gradient(180deg,#d4a040,#b07828);border-radius:10% 10% 30% 30%;transform-origin:top center;position:relative}
+    .l-leg:nth-child(1){animation:lL1 0.32s infinite ease-in-out}
+    .l-leg:nth-child(2){animation:lL2 0.32s infinite ease-in-out}
+    .l-leg:nth-child(3){animation:lL1 0.32s 0.16s infinite ease-in-out}
+    .l-leg:nth-child(4){animation:lL2 0.32s 0.16s infinite ease-in-out}
+    @keyframes lL1{0%,100%{transform:rotate(-32deg)}50%{transform:rotate(22deg)}}
+    @keyframes lL2{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-32deg)}}
+    .l-paw{position:absolute;bottom:-6px;left:-2px;width:18px;height:10px;background:#b07828;border-radius:40% 40% 50% 50%}
+
+    /* ITEMS */
+    #fallenHelmet{position:absolute;display:none;z-index:20}
+    #cheese{position:absolute;display:none;z-index:25}
+    .cheese-block{width:58px;height:34px;background:#f5c518;clip-path:polygon(0% 100%,0% 35%,20% 0%,100% 0%,100% 100%);position:relative;box-shadow:inset -4px -4px 10px rgba(0,0,0,0.2)}
+    .cheese-hole{position:absolute;background:#c8920a;border-radius:50%}
+    .ch1{width:12px;height:10px;top:14px;left:10px}.ch2{width:9px;height:8px;top:7px;left:34px}.ch3{width:7px;height:6px;top:20px;left:42px}
+    .cheese-base{width:66px;height:8px;background:#c8920a;border-radius:0 0 4px 4px}
+    #droppedCheesehead{position:absolute;display:none;z-index:22}
+
+    /* TROPHY */
+    #trophy{position:absolute;display:none;z-index:30;filter:drop-shadow(0 0 16px rgba(255,215,0,0.9))}
+    .trophy-football{width:28px;height:18px;background:linear-gradient(135deg,#f5e030,#d4a010);border-radius:50%;margin:0 auto;position:relative}
+    .trophy-football::before{content:'';position:absolute;top:7px;left:2px;width:24px;height:3px;background:rgba(255,255,255,0.35);border-radius:2px}
+    .trophy-neck{width:8px;height:24px;background:linear-gradient(180deg,#f5e030,#c89010);margin:0 auto;border-radius:2px}
+    .trophy-cup{width:38px;height:24px;background:linear-gradient(180deg,#f5e030,#c89010,#a07008);margin:0 auto;clip-path:polygon(0% 0%,100% 0%,85% 100%,15% 100%)}
+    .trophy-base1{width:46px;height:8px;background:linear-gradient(180deg,#c89010,#a07008);margin:0 auto;border-radius:2px}
+    .trophy-base2{width:54px;height:8px;background:linear-gradient(180deg,#a07008,#805005);margin:0 auto;border-radius:2px}
+    .trophy-base3{width:64px;height:10px;background:linear-gradient(180deg,#805005,#603003);margin:0 auto;border-radius:0 0 4px 4px}
+    #trophy.show{animation:trophySpin 1.2s cubic-bezier(0.2,0.8,0.3,1.2) forwards}
+    #trophy.floating{animation:trophyFloat 1.5s ease-in-out infinite alternate}
+    @keyframes trophySpin{from{transform:scale(0) rotate(-720deg) translateY(30px)}to{transform:scale(1) rotate(0deg) translateY(0)}}
+    @keyframes trophyFloat{from{transform:translateY(0) rotate(-4deg) scale(1)}to{transform:translateY(-12px) rotate(4deg) scale(1.05)}}
+
+    /* CHICAGO BEARS HELMET */
+    .bears-helmet{position:absolute;top:-52px;right:-10px;width:80px;height:68px;transform:rotate(12deg);z-index:5;pointer-events:none}
+    .bears-dome{width:80px;height:68px;background:radial-gradient(ellipse at 38% 32%,#1a3080 0%,#0b1f5a 45%,#060e30 100%);border-radius:50% 50% 44% 44%/58% 58% 42% 42%;position:relative;box-shadow:inset -9px -9px 20px rgba(0,0,0,0.5),3px 3px 10px rgba(0,0,0,0.4);overflow:hidden}
+    /* Orange + white stripe down center */
+    .bears-dome::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:13px;height:100%;background:linear-gradient(90deg,#c84a00 0%,#c84a00 30%,#fff 30%,#fff 70%,#c84a00 70%,#c84a00 100%);border-radius:4px}
+    /* Shine */
+    .bears-dome::after{content:'';position:absolute;top:7px;left:10px;width:20px;height:10px;background:rgba(255,255,255,0.2);border-radius:50%;transform:rotate(-20deg)}
+    /* "C" logo on side */
+    .bears-c{position:absolute;top:14px;right:6px;width:26px;height:26px;border:5px solid #f5a020;border-right:none;border-radius:50%;box-shadow:0 0 6px rgba(245,160,32,0.5)}
+    .bears-c::after{content:'';position:absolute;top:50%;right:-3px;transform:translateY(-50%);width:5px;height:10px;background:#0b1f5a}
+    /* Face mask — orange bars */
+    .bears-mask{position:absolute;bottom:-16px;left:8px;width:64px;height:20px}
+    .bears-mbar{position:absolute;height:5px;background:linear-gradient(180deg,#e06020,#c84a00);border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,0.4)}
+    .bears-mbar.b1{width:64px;top:0;border-radius:0 0 10px 10px}
+    .bears-mbar.b2{width:64px;top:10px}
+    .bears-mbar.v1{width:5px;height:20px;top:0;left:18px}
+    .bears-mbar.v2{width:5px;height:20px;top:0;left:38px}
+    /* Chin strap */
+    .bears-strap{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:26px;height:9px;border:3px solid #c84a00;border-top:none;border-radius:0 0 10px 10px}
+
+    /* BEAR */
+    #bear{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;transform-origin:bottom center}
+    #bear.running{animation:bRun 0.28s infinite ease-in-out}
+    #bear.lunge{animation:bLunge 0.15s infinite alternate ease-in-out}
+    #bear.eating{animation:bEat 0.2s infinite alternate ease-in-out}
+    #bear.satisfied{animation:bSatisfied 1.5s infinite ease-in-out}
+    #bear.dancing{animation:bearDance 0.38s infinite ease-in-out}
+    @keyframes bRun{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+    @keyframes bLunge{from{transform:translateY(0) scaleX(1.05)}to{transform:translateY(-6px) scaleX(0.97)}}
+    @keyframes bEat{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-5px) rotate(2deg)}}
+    @keyframes bSatisfied{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+    @keyframes bearDance{0%{transform:translateY(0) rotate(-10deg) scaleX(1)}25%{transform:translateY(-20px) rotate(10deg) scaleX(1.05) translateX(6px)}50%{transform:translateY(-4px) rotate(-8deg) scaleX(1)}75%{transform:translateY(-18px) rotate(8deg) scaleX(1.05) translateX(-6px)}100%{transform:translateY(0) rotate(-10deg) scaleX(1)}}
+    .b-body{width:140px;height:78px;background:radial-gradient(ellipse at 32% 28%,#b07040 0%,#8a4a22 28%,#6a3215 58%,#482008 82%,#2c1006 100%);border-radius:55% 45% 45% 55%/50%;position:relative;box-shadow:inset -14px -14px 30px rgba(0,0,0,0.55),inset 6px 6px 14px rgba(255,255,255,0.07),4px 4px 14px rgba(0,0,0,0.4)}
+    .b-body::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(125deg,transparent 0,transparent 5px,rgba(0,0,0,0.08) 5px,rgba(0,0,0,0.08) 6px),repeating-linear-gradient(55deg,transparent 0,transparent 9px,rgba(255,255,255,0.035) 9px,rgba(255,255,255,0.035) 10px);border-radius:inherit}
+    #bearBelly{position:absolute;bottom:8px;left:28px;width:72px;height:40px;background:radial-gradient(ellipse,#c4885a 0%,transparent 70%);border-radius:50%;opacity:0.5;transition:all 0.8s ease}
+    .b-head{width:95px;height:80px;background:radial-gradient(ellipse at 33% 26%,#ac6438 0%,#8a4222 35%,#5a2c12 65%,#381808 100%);border-radius:50% 50% 44% 44%;position:absolute;top:-48px;right:-18px;box-shadow:inset -10px -12px 26px rgba(0,0,0,0.5),inset 5px 5px 12px rgba(255,255,255,0.06),4px 4px 12px rgba(0,0,0,0.4);transform:rotate(12deg)}
+    .b-ear{position:absolute;width:28px;height:28px;background:radial-gradient(circle at 38% 32%,#9a5030 0%,#6a3618 55%,#421e08 100%);border-radius:50%;top:-12px;box-shadow:inset -3px -3px 8px rgba(0,0,0,0.35)}
+    .b-ear::after{content:'';width:14px;height:14px;background:radial-gradient(circle at 40% 36%,#f09878 0%,#d07050 60%,#a84e30 100%);border-radius:50%;position:absolute;top:7px;left:7px}
+    .b-ear.l{left:4px}.b-ear.r{right:4px}
+    .b-eye{position:absolute;width:16px;height:13px;background:#080300;border-radius:50%;top:20px;overflow:hidden;box-shadow:0 0 4px rgba(0,0,0,0.6)}
+    .b-eye::before{content:'';width:10px;height:10px;background:radial-gradient(circle at 35% 30%,#6a4020 0%,#3c1c08 60%,#080300 90%);border-radius:50%;position:absolute;top:1px;left:3px}
+    .b-eye::after{content:'';width:4px;height:4px;background:rgba(255,255,255,0.95);border-radius:50%;position:absolute;top:2px;left:4px}
+    .b-eye.l{left:13px}.b-eye.r{right:13px}
+    #bear.satisfied .b-eye,#bear.dancing .b-eye{border-radius:50% 50% 0 0;transform:scaleY(0.5)}
+    .b-snout{position:absolute;width:54px;height:40px;background:radial-gradient(ellipse at 44% 34%,#e0b080 0%,#c08050 35%,#9e5e32 70%,#7a3e18 100%);border-radius:45% 45% 52% 52%;bottom:4px;left:50%;transform:translateX(-50%);box-shadow:inset -5px -5px 12px rgba(0,0,0,0.3)}
+    .b-nose{position:absolute;width:22px;height:14px;background:radial-gradient(ellipse at 50% 38%,#1c0600 0%,#050000 100%);border-radius:50%;top:3px;left:50%;transform:translateX(-50%);box-shadow:inset 0 2px 7px rgba(0,0,0,0.95)}
+    .b-nose::before{content:'';position:absolute;width:5px;height:5px;background:rgba(0,0,0,0.65);border-radius:50%;bottom:2px;left:4px;box-shadow:7px 0 0 rgba(0,0,0,0.65)}
+    #bearMouth{position:absolute;width:38px;height:4px;background:#2a0808;border-radius:0 0 50% 50%;bottom:2px;left:50%;transform:translateX(-50%);transition:height 0.15s ease;overflow:hidden}
+    .b-teeth{position:absolute;top:0;left:1px;display:flex;gap:2px}
+    .bt{width:7px;height:10px;background:#f5f5e8;border-radius:0 0 4px 4px}.bt.fang{width:8px;height:14px}
+    .b-leg{position:absolute;width:22px;height:48px;background:linear-gradient(155deg,#7c4824 0%,#6a3818 35%,#4a2808 100%);border-radius:30% 30% 40% 40%;box-shadow:inset 3px 0 7px rgba(255,255,255,0.07),inset -3px -4px 10px rgba(0,0,0,0.45)}
+    .b-leg.fl{bottom:-42px;left:14px;animation:bFL 0.28s infinite ease-in-out;transform-origin:top center}
+    .b-leg.fr{bottom:-42px;left:46px;animation:bFR 0.28s infinite ease-in-out;transform-origin:top center}
+    .b-leg.hl{bottom:-46px;left:76px;animation:bHL 0.28s infinite ease-in-out;transform-origin:top center}
+    .b-leg.hr{bottom:-46px;left:106px;animation:bHR 0.28s infinite ease-in-out;transform-origin:top center}
+    @keyframes bFL{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(25deg)}}
+    @keyframes bFR{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-30deg)}}
+    @keyframes bHL{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-30deg)}}
+    @keyframes bHR{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(25deg)}}
+    .b-paw{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:28px;height:14px;background:radial-gradient(ellipse at 50% 38%,#4e2412 0%,#2c1008 100%);border-radius:40% 40% 52% 52%;box-shadow:0 2px 5px rgba(0,0,0,0.5)}
+    .b-paw::after{content:'';position:absolute;top:-5px;left:3px;width:5px;height:5px;background:#1a0804;border-radius:50%;box-shadow:5px 0 0 #1a0804,10px 0 0 #1a0804,15px 0 0 #1a0804}
+
+    /* UI */
+    #bubble{position:absolute;z-index:40;background:#fff;border-radius:14px;padding:7px 13px;font-size:0.95rem;font-weight:bold;color:#8a0000;box-shadow:2px 2px 6px rgba(0,0,0,0.3);white-space:nowrap;display:none}
+    #bubble::after{content:'';position:absolute;bottom:-12px;left:18px;width:0;height:0;border-left:8px solid transparent;border-right:4px solid transparent;border-top:13px solid #fff}
+    #bubble.bear-bubble{background:#c84000;color:#fff}
+    #bubble.bear-bubble::after{border-top-color:#c84000;left:auto;right:18px}
+    #dust{position:absolute;display:none;gap:8px}
+    .dust-puff{width:28px;height:20px;background:rgba(180,200,160,0.45);border-radius:50%;animation:dustPuff 0.4s infinite alternate ease-in-out}
+    .dust-puff:nth-child(2){animation-delay:0.1s;width:22px;height:16px}
+    .dust-puff:nth-child(3){animation-delay:0.2s;width:18px;height:14px}
+    @keyframes dustPuff{from{transform:translateY(0) scale(1);opacity:0.7}to{transform:translateY(-8px) scale(1.3);opacity:0.2}}
+    #notes{position:absolute;z-index:45;display:none;pointer-events:none}
+    .note{position:absolute;font-size:1.5rem;animation:noteFloat 1.2s ease-out forwards;pointer-events:none}
+    @keyframes noteFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-65px) rotate(25deg)}}
+    .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:200}
+    @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+    #burpFlash{position:fixed;inset:0;background:rgba(100,200,80,0.3);pointer-events:none;display:none;z-index:100}
+    #burpText{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900;color:#4a9a00;text-shadow:3px 3px 0 #fff,-2px -2px 0 #fff;display:none;z-index:101;white-space:nowrap}
+    #eatFlash{position:fixed;inset:0;background:rgba(255,255,255,0.45);pointer-events:none;display:none;z-index:99}
+    #tdOverlay{position:fixed;inset:0;pointer-events:none;display:none;z-index:98;background:radial-gradient(ellipse at 50% 100%,rgba(245,160,0,0.35) 0%,transparent 70%);animation:tdPulse 0.45s infinite alternate}
+    @keyframes tdPulse{from{opacity:0.6}to{opacity:1}}
+    #tdText{position:fixed;bottom:8%;left:50%;transform:translateX(-50%);font-size:3rem;font-weight:900;color:#f5c800;text-shadow:4px 4px 0 #1a0a00,-2px -2px 0 #1a0a00,0 0 30px rgba(245,200,0,0.9);display:none;z-index:102;text-align:center;animation:tdBounce 0.4s infinite alternate;white-space:nowrap}
+    @keyframes tdBounce{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.06)}}
+    .caption{position:absolute;bottom:12px;width:100%;text-align:center;color:rgba(255,255,255,0.9);font-size:0.9rem;letter-spacing:2px;text-transform:uppercase;text-shadow:1px 1px 3px rgba(0,0,0,0.7);z-index:20}
+    /* Stadium light cones */
+    .light-cone{position:absolute;top:0;width:220px;pointer-events:none;z-index:1;overflow:visible}
+    .light-cone::before{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:110px solid transparent;border-right:110px solid transparent;border-top:58vh solid rgba(255,250,180,0.032);filter:blur(10px)}
+    /* Field flood from lights */
+    .field-flood{position:absolute;bottom:0;left:0;width:100%;height:48%;pointer-events:none;z-index:4;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,180,0.10) 0%,transparent 70%)}
+    /* Stars */
+    .star{position:absolute;background:#fff;border-radius:50%;pointer-events:none}
+    /* Bears midfield C logo */
+    .bears-midfield{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);z-index:2;pointer-events:none;opacity:0.22}
+    .bmf-ring{position:absolute;width:148px;height:148px;border:2px solid rgba(255,255,255,0.3);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+    .bmf-c{width:96px;height:96px;border:18px solid #f5a020;border-right:none;border-radius:50%;position:relative;margin:0 auto;box-shadow:0 0 24px rgba(245,160,32,0.6)}
+    /* Bills logo in stands */
+    .bills-banner{position:absolute;top:19%;left:7%;z-index:5;background:#00338D;border:2px solid #fff;border-radius:8px;padding:6px 10px 4px;pointer-events:none}
+    .bills-buf{position:relative;width:64px;height:54px;margin:0 auto}
+    .bills-buf-body{position:absolute;bottom:0;left:8px;width:52px;height:34px;background:#C60C30;border-radius:35% 50% 55% 40%}
+    .bills-buf-shoulder{position:absolute;bottom:20px;left:4px;width:28px;height:28px;background:#C60C30;border-radius:60% 30% 40% 50%}
+    .bills-buf-head{position:absolute;bottom:26px;left:0;width:22px;height:20px;background:#C60C30;border-radius:50% 30% 40% 50%}
+    .bills-buf-horn{position:absolute;bottom:40px;left:5px;width:12px;height:13px;background:#C60C30;clip-path:polygon(0% 100%,55% 0%,100% 80%)}
+    .bills-buf-stripe{position:absolute;bottom:12px;left:10px;width:42px;height:9px;background:#00338D;border-radius:2px;transform:rotate(-5deg)}
+    .bills-buf-tail{position:absolute;bottom:16px;right:4px;width:10px;height:18px;background:#C60C30;border-radius:50% 50% 30% 30%;transform:rotate(15deg)}
+    .bills-label{color:#fff;font-size:0.65rem;font-weight:900;text-align:center;letter-spacing:3px;margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="stadium-roof"></div>
+  <div class="stadium-light" style="left:8%"><div class="light-pole"></div><div class="light-head"></div><div class="light-glow"></div></div>
+  <div class="stadium-light" style="left:22%"><div class="light-pole"></div><div class="light-head"></div><div class="light-glow"></div></div>
+  <div class="stadium-light" style="right:22%"><div class="light-pole"></div><div class="light-head"></div><div class="light-glow"></div></div>
+  <div class="stadium-light" style="right:8%"><div class="light-pole"></div><div class="light-head"></div><div class="light-glow"></div></div>
+
+  <div id="scoreboard"><div class="sb-board"><div class="sb-label">SOLDIER FIELD · CHICAGO</div><div class="sb-score" id="sbScore">BEARS 🐻 999999999999999999999999 — EVERYONE ELSE 0</div></div></div>
+
+  <div class="bleachers upper" id="bleachersUpper"></div>
+  <div class="bleachers lower" id="bleachersLower"></div>
+  <div class="light-cone" style="left:8%"></div>
+  <div class="light-cone" style="left:22%"></div>
+  <div class="light-cone" style="right:22%"></div>
+  <div class="light-cone" style="right:8%"></div>
+  <div class="field-flood"></div>
+  <div class="bills-banner"><div class="bills-buf"><div class="bills-buf-body"></div><div class="bills-buf-shoulder"></div><div class="bills-buf-head"></div><div class="bills-buf-horn"></div><div class="bills-buf-stripe"></div><div class="bills-buf-tail"></div></div><div class="bills-label">BILLS</div></div>
+
+  <div class="goalpost left"><div class="gp-post" style="height:90px;width:5px"></div><div class="gp-crossbar" style="width:50px"></div></div>
+  <div class="goalpost right"><div class="gp-post" style="height:90px;width:5px"></div><div class="gp-crossbar" style="width:50px"></div></div>
+
+  <div class="ground"><div class="yard-lines"></div><div class="bears-midfield"><div class="bmf-ring"></div><div class="bmf-c"></div></div><div class="endzone l">BEARS</div><div class="endzone r">BEARS</div></div>
+
+  <div class="title">
+    <span class="go">🐻 GO BEARS #1 🐻</span><br>
+    <span class="boo">BOO PACKERS</span> &nbsp;·&nbsp; <span class="boo">BOO VIKINGS</span> &nbsp;·&nbsp; <span class="boo">BOO LIONS</span>
+  </div>
+
+  <div id="score">
+    🐻 Bear's Menu:<br>
+    <span class="eaten" id="scoreViking">☐ Viking</span><br>
+    <span class="eaten" id="scoreHelmet">☐ Helmet</span><br>
+    <span class="eaten" id="scoreCheese">☐ 🤢 Stinky Cheese</span><br>
+    <span class="eaten" id="scoreLion">☐ Lion</span><br>
+    <span class="eaten" id="scorePacker">☐ Cheesehead</span><br>
+    <span class="eaten" id="scoreWord">☐ The Word "PACKERS"</span>
+  </div>
+
+  <div id="scene">
+    <div id="dust"><div class="dust-puff"></div><div class="dust-puff"></div><div class="dust-puff"></div></div>
+    <div id="bubble"></div>
+    <div id="fallenHelmet"></div>
+
+    <!-- STINKY CHEESE -->
+    <div id="cheese">
+      <div class="cheese-wrap">
+        <div class="stink">
+          <div class="stink-line s1">〜💨</div>
+          <div class="stink-line s2">〜🤢〜</div>
+          <div class="stink-line s3">💨〜</div>
+        </div>
+        <div class="cheese-block"><div class="cheese-hole ch1"></div><div class="cheese-hole ch2"></div><div class="cheese-hole ch3"></div></div>
+        <div class="cheese-base"></div>
+      </div>
+    </div>
+
+    <div id="droppedCheesehead"></div>
+
+    <!-- BIG PACKERS WORD -->
+    <div id="packersWord"><span>PACKERS</span></div>
+
+    <div id="notes"></div>
+    <div id="trophy"><div class="trophy-football"></div><div class="trophy-neck"></div><div class="trophy-cup"></div><div class="trophy-base1"></div><div class="trophy-base2"></div><div class="trophy-base3"></div></div>
+
+    <!-- LION -->
+    <div id="lion" class="running">
+      <div class="lions-helmet"><div class="lions-dome"><div class="lions-paw"></div></div><div class="lions-mask"><div class="lions-bar b1"></div><div class="lions-bar b2"></div><div class="lions-bar v1"></div><div class="lions-bar v2"></div></div></div>
+      <div style="position:relative;width:60px"><div class="l-tail"></div><div class="l-mane"><div class="l-ear l"></div><div class="l-ear r"></div><div class="l-head"><div class="l-eye l"></div><div class="l-eye r"></div><div class="l-nose"></div><div class="l-mouth"></div></div></div></div>
+      <div class="l-body"></div>
+      <div class="l-legs"><div class="l-leg"><div class="l-paw"></div></div><div class="l-leg"><div class="l-paw"></div></div><div class="l-leg"><div class="l-paw"></div></div><div class="l-leg"><div class="l-paw"></div></div></div>
+    </div>
+
+    <!-- VIKING -->
+    <div id="viking" class="running">
+      <div id="vikHelmetEl"><div class="fball-helmet"><div class="fball-dome"><div class="fball-horn"></div></div><div class="fball-mask"><div class="fball-bar b1"></div><div class="fball-bar b2"></div><div class="fball-bar v1"></div><div class="fball-bar v2"></div></div><div class="fball-strap"></div></div></div>
+      <div class="v-head"><div class="v-brow l"></div><div class="v-brow r"></div><div class="v-eye l"></div><div class="v-eye r"></div><div class="v-nose"></div><div class="v-mouth"></div></div>
+      <div class="v-beard"></div>
+      <div class="v-body"><div class="v-arm l"></div><div class="v-arm r"></div><div id="vAxe"><div class="axe-handle"></div><div class="axe-head"></div></div></div>
+      <div class="v-legs"><div class="v-leg"><div class="v-boot"></div></div><div class="v-leg"><div class="v-boot"></div></div></div>
+    </div>
+
+    <!-- PACKERS FAN -->
+    <div id="packer" style="display:none">
+      <div class="cheesehead"><div class="ch-wedge"><div class="ch-hole chh1"></div><div class="ch-hole chh2"></div><div class="ch-hole chh3"></div></div><div class="ch-base"></div></div>
+      <div class="pk-head"><div class="pk-eye l"></div><div class="pk-eye r"></div><div class="pk-nose"></div><div class="pk-mouth"></div></div>
+      <div class="pk-body"><div class="pk-arm l"></div><div class="pk-arm r"></div></div>
+      <div class="pk-legs"><div class="pk-leg"><div class="pk-boot"></div></div><div class="pk-leg"><div class="pk-boot"></div></div></div>
+    </div>
+
+    <!-- BEAR -->
+    <div id="bear" class="running">
+      <div class="b-body">
+        <div id="bearBelly"></div>
+        <div class="b-head">
+          <div class="bears-helmet">
+            <div class="bears-dome"><div class="bears-c"></div></div>
+            <div class="bears-mask"><div class="bears-mbar b1"></div><div class="bears-mbar b2"></div><div class="bears-mbar v1"></div><div class="bears-mbar v2"></div></div>
+            <div class="bears-strap"></div>
+          </div>
+          <div class="b-ear l"></div><div class="b-ear r"></div><div class="b-eye l"></div><div class="b-eye r"></div>
+          <div class="b-snout"><div class="b-nose"></div>
+            <div id="bearMouth"><div class="b-teeth"><div class="bt fang"></div><div class="bt"></div><div class="bt fang"></div><div class="bt"></div><div class="bt fang"></div></div></div>
+          </div>
+        </div>
+        <div class="b-leg fl"><div class="b-paw"></div></div><div class="b-leg fr"><div class="b-paw"></div></div>
+        <div class="b-leg hl"><div class="b-paw"></div></div><div class="b-leg hr"><div class="b-paw"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption" id="caption">DA BEARS RULE — SO DO THE BILLS</div>
+  <div id="burpFlash"></div><div id="burpText"></div>
+  <div id="eatFlash"></div><div id="tdOverlay"></div>
+  <div id="tdText">🏈 TOUCHDOWN! 🏈<br><span style="font-size:1.8rem">DA BEARS WIN THE SUPER BOWL</span></div>
+
+  <script>
+    // BLEACHERS
+    ['bleachersUpper','bleachersLower'].forEach(id=>{
+      const el=document.getElementById(id);
+      const colors=['#c84a00','#0b1f5a','#c84a00','#0b1f5a','#fff','#0b1f5a','#c84a00'];
+      for(let r=0;r<4;r++){
+        const row=document.createElement('div');row.className='bleacher-row';
+        for(let s=0;s<80;s++){const seat=document.createElement('div');seat.className='seat';seat.style.background=colors[Math.floor(Math.random()*colors.length)];seat.style.opacity=(0.4+Math.random()*0.5).toString();row.appendChild(seat)}
+        el.appendChild(row);
+      }
+    });
+    // STARS
+    const roof=document.querySelector('.stadium-roof');
+    for(let i=0;i<110;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.2+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*92}%;left:${Math.random()*100}%;opacity:${0.25+Math.random()*0.75};box-shadow:0 0 ${sz*2+1}px rgba(255,255,255,0.9)`;roof.appendChild(s)}
+
+    const viking=document.getElementById('viking'),lion=document.getElementById('lion'),packer=document.getElementById('packer'),bear=document.getElementById('bear');
+    const vikHelmetEl=document.getElementById('vikHelmetEl'),fallenHelmet=document.getElementById('fallenHelmet');
+    const bearMouth=document.getElementById('bearMouth'),bearBelly=document.getElementById('bearBelly');
+    const bubble=document.getElementById('bubble'),dust=document.getElementById('dust');
+    const cheese=document.getElementById('cheese'),trophy=document.getElementById('trophy');
+    const droppedCheesehead=document.getElementById('droppedCheesehead');
+    const packersWord=document.getElementById('packersWord');
+    const notes=document.getElementById('notes'),scene=document.getElementById('scene');
+    const caption=document.getElementById('caption'),sbScore=document.getElementById('sbScore');
+    const burpFlash=document.getElementById('burpFlash'),burpText=document.getElementById('burpText');
+    const eatFlash=document.getElementById('eatFlash'),tdOverlay=document.getElementById('tdOverlay'),tdText=document.getElementById('tdText');
+
+    const vikLines=['GO BEARS!!','SKOL?? WAIT—','BY THOR!!','GO BEARS!!','NOT THE STINKY CHEESE!'];
+    const bearLines=['ROAARRR!!','GRRRRR!!','*sniffs you*','NOM NOM...'];
+    const lionLines=['ROAR?? ROAR!!','WHY THE BEAR!!','I THOUGHT I WAS SAFE!!','PLEASE NO!!'];
+    const packLines=['NOT MY CHEESEHEAD!!','I DROVE FROM GREEN BAY!!','RODGERS SAVE ME!!','GO PACK G— AAAHH!!'];
+
+    let li=0,bi=0,li2=0,pi=0,lastSwap=0,phase=0,phaseStart=0,cycleStart=0;
+    let hx=0,hy=0,hvx=0,hvy=0,hang=0,hlanded=false;
+    let cx=0,cy=0,cvx=0,cvy=0,cang=0,clanded=false;
+    let chx=0,chy=0,chvx=0,chvy=0,chang=0,chlanded=false;
+    let helmetEat=false,cheeseEat=false,packEat=false,cheeseheadEat=false,wordEat=false;
+    let helmetFrom={x:0,y:0},cheeseFrom={x:0,y:0},packFrom={x:0,y:0},cheeseheadFrom={x:0,y:0};
+    let wordFromX=0,wordFromY=0,wordCurX=0,wordCurY=0,wordScale=1;
+    let noteTimer=0,confettiTimer=0;
+
+    const lerp=(a,b,t)=>a+(b-a)*Math.min(1,Math.max(0,t));
+    const easeOut=t=>1-(1-t)**2;
+    const easeIn=t=>t*t;
+
+    function showBubble(text,isBear,el){
+      bubble.textContent=text;bubble.className=isBear?'bear-bubble':'';bubble.style.display='block';
+      const target=el||(isBear?bear:viking);
+      const tr=target.getBoundingClientRect(),sr=scene.getBoundingClientRect();
+      bubble.style.left=(tr.left-sr.left+(isBear?10:-50))+'px';
+      bubble.style.top=(tr.top-sr.top-58)+'px';
+    }
+    const hideBubble=()=>bubble.style.display='none';
+    const flashEat=()=>{eatFlash.style.display='block';setTimeout(()=>eatFlash.style.display='none',160)};
+    function doSmallBurp(t){burpFlash.style.display='block';burpText.style.display='block';burpText.style.fontSize='2.5rem';burpText.textContent=t||'*burp*';setTimeout(()=>{burpFlash.style.display='none';burpText.style.display='none'},700)}
+    function doBigBurp(){burpFlash.style.display='block';burpText.style.display='block';burpText.style.fontSize='4rem';burpText.textContent='*BBUURRRP*';setTimeout(()=>{burpFlash.style.display='none';burpText.style.display='none'},1200)}
+    function getMouthPos(){const br=bear.getBoundingClientRect(),sr=scene.getBoundingClientRect();return{x:br.left-sr.left+br.width*0.82,y:br.top-sr.top+br.height*0.25}}
+    function buildHelmetHTML(){return`<div class="fball-helmet"><div class="fball-dome"><div class="fball-horn"></div></div><div class="fball-mask"><div class="fball-bar b1"></div><div class="fball-bar b2"></div><div class="fball-bar v1"></div><div class="fball-bar v2"></div></div><div class="fball-strap"></div></div>`}
+    function buildCheeseheadHTML(){return`<div class="cheesehead"><div class="ch-wedge"><div class="ch-hole chh1"></div><div class="ch-hole chh2"></div><div class="ch-hole chh3"></div></div><div class="ch-base"></div></div>`}
+    function spawnNote(){const n=document.createElement('div');n.className='note';n.textContent=['♪','♫','🎵','♩','🎶'][Math.floor(Math.random()*5)];const br=bear.getBoundingClientRect(),sr=scene.getBoundingClientRect();n.style.left=(br.left-sr.left+Math.random()*90)+'px';n.style.top=(br.top-sr.top-10)+'px';n.style.animationDelay=Math.random()*0.2+'s';notes.appendChild(n);setTimeout(()=>n.remove(),1400)}
+    function spawnConfetti(){const cols=['#f5a020','#0b1f5a','#fff','#f5e642','#c84a00'];for(let i=0;i<6;i++){const c=document.createElement('div');c.className='confetti-piece';c.style.background=cols[Math.floor(Math.random()*cols.length)];c.style.left=Math.random()*100+'vw';c.style.animationDuration=(2+Math.random()*3)+'s';c.style.animationDelay=Math.random()+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),5000)}}
+
+    function doReset(){
+      phase=0;phaseStart=cycleStart=performance.now();lastSwap=0;
+      viking.style.cssText='left:32%;';viking.className='running';vikHelmetEl.style.display='';
+      lion.style.cssText='left:13%;';lion.className='running';
+      packer.style.cssText='display:none;left:5%;';
+      bear.style.left='60%';bear.className='running';
+      bearMouth.style.height='4px';bearBelly.style.width='72px';bearBelly.style.height='40px';bearBelly.style.opacity='0.5';
+      fallenHelmet.style.display='none';fallenHelmet.innerHTML='';hlanded=false;helmetEat=false;
+      cheese.style.display='none';cheese.style.opacity='1';cheese.style.transform='';clanded=false;cheeseEat=false;
+      droppedCheesehead.style.display='none';droppedCheesehead.innerHTML='';chlanded=false;cheeseheadEat=false;packEat=false;
+      packersWord.style.display='none';packersWord.style.transform='';packersWord.style.opacity='1';wordEat=false;
+      trophy.style.display='none';trophy.className='';
+      notes.style.display='none';notes.innerHTML='';
+      dust.style.display='none';hideBubble();
+      tdOverlay.style.display='none';tdText.style.display='none';
+      caption.textContent='DA BEARS RULE — SO DO THE BILLS';
+      sbScore.innerHTML='BEARS 🐻 999999999999999999999999 — EVERYONE ELSE 0';
+      document.getElementById('scoreViking').textContent='☐ Viking';
+      document.getElementById('scoreHelmet').textContent='☐ Helmet';
+      document.getElementById('scoreCheese').textContent='☐ 🤢 Stinky Cheese';
+      document.getElementById('scoreLion').textContent='☐ Lion';
+      document.getElementById('scorePacker').textContent='☐ Cheesehead';
+      document.getElementById('scoreWord').textContent='☐ The Word "PACKERS"';
+    }
+
+    function tick(now){
+      const t=now-cycleStart,pt=now-phaseStart;
+
+      if(phase===0){ // Chase 0-3s
+        dust.style.display='flex';dust.style.left='46%';dust.style.bottom='-8px';
+        if(pt-lastSwap>900){lastSwap=pt;showBubble(vikLines[li++%vikLines.length],false)}
+        if(t>=3000){phase=1;phaseStart=now;hideBubble()}
+      }
+      else if(phase===1){ // Lunge at viking 3-4.4s
+        const p=easeOut(pt/1400);
+        lion.style.left=lerp(13,9,p)+'%';viking.style.left=lerp(32,25,p)+'%';bear.style.left=lerp(60,37,p)+'%';
+        bear.className='lunge';
+        if(pt-lastSwap>500){lastSwap=pt;showBubble(bearLines[bi++%bearLines.length],true)}
+        if(pt>=700&&!hlanded&&fallenHelmet.style.display==='none'){
+          const hr=vikHelmetEl.getBoundingClientRect(),sr=scene.getBoundingClientRect();
+          hx=hr.left-sr.left;hy=hr.top-sr.top;hvx=2;hvy=-9;hang=0;
+          vikHelmetEl.style.display='none';fallenHelmet.innerHTML=buildHelmetHTML();fallenHelmet.style.display='block';
+          fallenHelmet.style.left=hx+'px';fallenHelmet.style.top=hy+'px';
+        }
+        if(t>=4400){phase=2;phaseStart=now;hideBubble()}
+      }
+      else if(phase===2){ // Viking eaten 4.4-5.6s
+        const p=easeOut(pt/1200);
+        lion.style.left='9%';bear.style.left='37%';bear.className='lunge';
+        bearMouth.style.height=lerp(4,26,Math.min(p*2,1))+'px';
+        viking.style.left=lerp(25,40,p)+'%';viking.style.transform=`scale(${lerp(1,0.04,p)}) rotate(${lerp(0,200,p)}deg)`;viking.style.opacity=lerp(1,0,p);
+        if(pt>80&&pt<700)showBubble('GO BEARS!! 🐻',false);else if(pt>700)hideBubble();
+        if(t>=5600){phase=3;phaseStart=now;viking.style.display='none';flashEat();document.getElementById('scoreViking').textContent='✓ Viking 🐻';const br=bear.getBoundingClientRect(),sr=scene.getBoundingClientRect();cx=br.left-sr.left+10;cy=br.top-sr.top+10;cvx=-4;cvy=-11;cang=0;clanded=false;cheese.style.display='block';cheese.style.left=cx+'px';cheese.style.top=cy+'px';hideBubble()}
+      }
+      else if(phase===3){ // Bouncing items 5.6-6.8s
+        bear.style.left='37%';bear.className='eating';lion.style.left='9%';
+        bearMouth.style.height=lerp(26,6,easeOut(pt/500))+'px';
+        if(!hlanded){hvy+=1.5;hx+=hvx;hy+=hvy;hang+=10;const scH=scene.getBoundingClientRect().height;if(hy>=scH-40){hy=scH-40;hvy*=-0.38;hvx*=0.7;if(Math.abs(hvy)<1.5)hlanded=true}fallenHelmet.style.left=hx+'px';fallenHelmet.style.top=hy+'px';fallenHelmet.style.transform=`rotate(${hang}deg)`}
+        if(!clanded){cvy+=1.2;cx+=cvx;cy+=cvy;cang-=8;const scH=scene.getBoundingClientRect().height;if(cy>=scH-50){cy=scH-50;cvy*=-0.4;cvx*=0.7;if(Math.abs(cvy)<1.5)clanded=true}cheese.style.left=cx+'px';cheese.style.top=cy+'px';cheese.style.transform=`rotate(${cang}deg)`}
+        if(t>=6800){phase=4;phaseStart=now;helmetEat=true;helmetFrom={x:hx,y:hy};bearMouth.style.height='22px';hideBubble()}
+      }
+      else if(phase===4){ // Eat helmet 6.8-7.6s
+        bear.style.left='37%';bear.className='eating';lion.style.left='9%';
+        const p=easeIn(pt/800),mp=getMouthPos();
+        if(helmetEat){fallenHelmet.style.left=lerp(helmetFrom.x,mp.x-30,p)+'px';fallenHelmet.style.top=lerp(helmetFrom.y,mp.y,p)+'px';fallenHelmet.style.transform=`scale(${lerp(1,0,p)}) rotate(${lerp(hang,720,p)}deg)`;fallenHelmet.style.opacity=lerp(1,0,p)}
+        if(pt>300)showBubble('*CRUNCH*',true);
+        if(t>=7600){phase=5;phaseStart=now;fallenHelmet.style.display='none';helmetEat=false;flashEat();document.getElementById('scoreHelmet').textContent='✓ Helmet 🐻';bearBelly.style.width='90px';bearBelly.style.height='50px';bearBelly.style.opacity='0.6';cheeseEat=true;cheeseFrom={x:cx,y:cy};bearMouth.style.height='22px';hideBubble()}
+      }
+      else if(phase===5){ // Eat stinky cheese 7.6-8.4s
+        bear.style.left='37%';bear.className='eating';lion.style.left='9%';
+        const p=easeIn(pt/800),mp=getMouthPos();
+        if(cheeseEat){cheese.style.left=lerp(cheeseFrom.x,mp.x-30,p)+'px';cheese.style.top=lerp(cheeseFrom.y,mp.y,p)+'px';cheese.style.transform=`scale(${lerp(1,0,p)}) rotate(${lerp(cang,720,p)}deg)`;cheese.style.opacity=lerp(1,0,p)}
+        if(pt>300)showBubble('🤢 smells amazing.',true);
+        if(t>=8400){phase=6;phaseStart=now;cheese.style.display='none';cheeseEat=false;flashEat();document.getElementById('scoreCheese').textContent='✓ 🤢 Stinky Cheese 🐻';bearBelly.style.width='100px';bearBelly.style.height='58px';bearBelly.style.opacity='0.65';hideBubble();doSmallBurp('*cheesy burp*')}
+      }
+      else if(phase===6){ // Chase lion 8.4-10.2s
+        const p=easeOut(pt/1800);
+        lion.style.left=lerp(9,3,p)+'%';bear.style.left=lerp(37,16,p)+'%';bear.className='lunge';
+        if(pt-lastSwap>700){lastSwap=pt;showBubble(lionLines[li2++%lionLines.length],false,lion)}
+        if(t>=10200){phase=7;phaseStart=now;hideBubble()}
+      }
+      else if(phase===7){ // Lion eaten 10.2-11.4s
+        const p=easeOut(pt/1200);
+        bear.style.left='16%';bear.className='lunge';bearMouth.style.height=lerp(4,28,Math.min(p*2,1))+'px';
+        lion.style.left=lerp(3,20,p)+'%';lion.style.transform=`scale(${lerp(1,0.04,p)}) rotate(${lerp(0,-200,p)}deg)`;lion.style.opacity=lerp(1,0,p);
+        if(pt>100&&pt<600)showBubble('THE LION IS NEXT 🦁',true);else if(pt>600)hideBubble();
+        if(t>=11400){phase=8;phaseStart=now;lion.style.display='none';flashEat();document.getElementById('scoreLion').textContent='✓ Lion 🐻';bearBelly.style.width='112px';bearBelly.style.height='65px';bearBelly.style.opacity='0.7';hideBubble();doSmallBurp('*burp*')}
+      }
+      else if(phase===8){ // Packer fan runs in 11.4-13.2s
+        const p=easeOut(pt/1800);
+        packer.style.display='flex';packer.style.left=lerp(92,55,p)+'%';packer.className='running';
+        bear.style.left=lerp(16,35,p)+'%';bear.className='running';bearMouth.style.height='4px';
+        if(pt-lastSwap>750){lastSwap=pt;showBubble(packLines[pi++%packLines.length],false,packer)}
+        if(t>=13200){phase=9;phaseStart=now;hideBubble()}
+      }
+      else if(phase===9){ // Bear lunges at packer 13.2-14.6s
+        const p=easeOut(pt/1400);
+        packer.style.left=lerp(55,60,p)+'%';bear.style.left=lerp(35,50,p)+'%';bear.className='lunge';
+        bearMouth.style.height=lerp(4,26,Math.min(p*2,1))+'px';
+        if(pt>300)showBubble('THE CHEESEHEAD IS MINE.',true);
+        if(pt>=600&&droppedCheesehead.style.display==='none'){
+          const pr=packer.getBoundingClientRect(),sr=scene.getBoundingClientRect();
+          chx=pr.left-sr.left+10;chy=pr.top-sr.top-10;chvx=3;chvy=-10;chang=0;chlanded=false;
+          const chEl=packer.querySelector('.cheesehead');if(chEl)chEl.style.visibility='hidden';
+          droppedCheesehead.innerHTML=buildCheeseheadHTML();droppedCheesehead.style.display='block';
+          droppedCheesehead.style.left=chx+'px';droppedCheesehead.style.top=chy+'px';
+        }
+        if(t>=14600){phase=10;phaseStart=now;hideBubble()}
+      }
+      else if(phase===10){ // Packer eaten 14.6-15.8s
+        const p=easeOut(pt/1200);
+        bear.style.left='50%';bear.className='lunge';bearMouth.style.height=lerp(26,28,p)+'px';
+        packer.style.left=lerp(60,52,p)+'%';packer.style.transform=`scale(${lerp(1,0.04,p)}) rotate(${lerp(0,180,p)}deg)`;packer.style.opacity=lerp(1,0,p);
+        if(!chlanded){chvy+=1.2;chx+=chvx;chy+=chvy;chang+=9;const scH=scene.getBoundingClientRect().height;if(chy>=scH-55){chy=scH-55;chvy*=-0.4;chvx*=0.7;if(Math.abs(chvy)<1.5)chlanded=true}droppedCheesehead.style.left=chx+'px';droppedCheesehead.style.top=chy+'px';droppedCheesehead.style.transform=`rotate(${chang}deg)`}
+        if(pt>100&&pt<700)showBubble('SO LONG, CHEESE BOY! 🧀',true);else if(pt>700)hideBubble();
+        if(t>=15800){phase=11;phaseStart=now;packer.style.display='none';flashEat();document.getElementById('scorePacker').textContent='✓ Cheesehead 🐻';bearBelly.style.width='125px';bearBelly.style.height='74px';bearBelly.style.opacity='0.8';bearMouth.style.height='4px';cheeseheadEat=true;cheeseheadFrom={x:chx,y:chy};hideBubble()}
+      }
+      else if(phase===11){ // Eat cheesehead 15.8-16.6s
+        bear.style.left='50%';bear.className='eating';
+        const p=easeIn(pt/800),mp=getMouthPos();
+        bearMouth.style.height=lerp(4,24,Math.min(p*2,1))+'px';
+        if(cheeseheadEat){droppedCheesehead.style.left=lerp(cheeseheadFrom.x,mp.x-35,p)+'px';droppedCheesehead.style.top=lerp(cheeseheadFrom.y,mp.y,p)+'px';droppedCheesehead.style.transform=`scale(${lerp(1,0,p)}) rotate(${lerp(chang,720,p)}deg)`;droppedCheesehead.style.opacity=lerp(1,0,p)}
+        if(pt>300)showBubble('tastes like losing.',true);
+        if(t>=16600){phase=12;phaseStart=now;droppedCheesehead.style.display='none';cheeseheadEat=false;flashEat();doSmallBurp('*gouda burp*');bearMouth.style.height='4px';hideBubble()}
+      }
+      else if(phase===12){ // BIG "PACKERS" word slides in 16.6-18.2s
+        bear.style.left='50%';bear.className='running';
+        const p=easeOut(pt/1600);
+        // Word slides from right to center
+        wordCurX=lerp(105,30,p);
+        wordCurY=lerp(40,45,p); // % of scene height from top, in px
+        const scH=scene.getBoundingClientRect().height;
+        packersWord.style.display='block';
+        packersWord.style.left=wordCurX+'%';
+        packersWord.style.top=(scH*0.3)+'px';
+        packersWord.style.opacity='1';
+        packersWord.style.transform=`rotate(${lerp(0,-3,p)}deg)`;
+        if(pt>400&&pt<1200)showBubble('oh no... the word itself.',true);
+        else if(pt>1200){showBubble('I SHALL EAT THE WORD.',true)}
+        if(t>=18200){phase=13;phaseStart=now;hideBubble();const wr=packersWord.getBoundingClientRect(),sr=scene.getBoundingClientRect();wordFromX=wr.left-sr.left;wordFromY=wr.top-sr.top;wordEat=true;bearMouth.style.height='30px'}
+      }
+      else if(phase===13){ // Bear eats the word PACKERS 18.2-19.4s
+        bear.style.left='50%';bear.className='eating';
+        const p=easeIn(pt/1200),mp=getMouthPos();
+        if(wordEat){
+          const sc=lerp(1,0,p);
+          const nx=lerp(wordFromX,mp.x-60,p);
+          const ny=lerp(wordFromY,mp.y,p);
+          packersWord.style.left=nx+'px';
+          packersWord.style.top=ny+'px';
+          packersWord.style.transform=`scale(${sc}) rotate(${lerp(-3,720,p)}deg)`;
+          packersWord.style.opacity=lerp(1,0,p);
+        }
+        bearMouth.style.height=lerp(30,4,easeOut(pt/1200)*0.9)+'px';
+        if(pt>400)showBubble('*CHOMP* 🏈',true);
+        if(t>=19400){phase=14;phaseStart=now;packersWord.style.display='none';wordEat=false;flashEat();document.getElementById('scoreWord').textContent='✓ "PACKERS" 🐻';bearBelly.style.width='135px';bearBelly.style.height='80px';bearBelly.style.opacity='0.85';bearMouth.style.height='4px';hideBubble();doBigBurp()}
+      }
+      else if(phase===14){ // TOUCHDOWN DANCE 19.4-22s
+        bear.style.left='45%';bear.className='dancing';
+        notes.style.display='block';tdOverlay.style.display='block';tdText.style.display='block';
+        caption.textContent='🏈 DA BEARS SUPER BOWL CHAMPS · GO BEARS 🏈';
+        sbScore.innerHTML='BEARS 🐻 999999999999999999999999 — REST OF NFL 0';
+        if(now-noteTimer>320){noteTimer=now;spawnNote();spawnNote()}
+        if(now-confettiTimer>600){confettiTimer=now;spawnConfetti()}
+        if(pt>400&&pt<2000)showBubble('TOUCHDOWN BEARS!! 🏈',true);
+        else if(pt>2000&&pt<2200)hideBubble();
+        else if(pt>2200)showBubble('GO BEARS 🐻',true);
+        if(t>=22000){phase=15;phaseStart=now;tdOverlay.style.display='none';tdText.style.display='none';notes.style.display='none';notes.innerHTML='';hideBubble();
+          const br=bear.getBoundingClientRect(),sr=scene.getBoundingClientRect();
+          trophy.style.left=(br.left-sr.left-50)+'px';trophy.style.top=(br.top-sr.top-130)+'px';
+          trophy.style.display='block';trophy.className='show';
+          setTimeout(()=>{trophy.className='floating'},1300);
+          bear.className='satisfied';
+        }
+      }
+      else if(phase===15){ // Trophy celebration — HOLD it, don't eat it 22-25s
+        bear.style.left='45%';bear.className='satisfied';
+        if(now-confettiTimer>800){confettiTimer=now;spawnConfetti()}
+        if(pt>500&&pt<2200)showBubble('Super Bowl Champs 🏆',true);
+        else if(pt>2200&&pt<2400)hideBubble();
+        else if(pt>2400&&pt<3800)showBubble('GO BEARS 🐻',true);
+        else if(pt>3800)hideBubble();
+        if(t>=25000){phase=16;phaseStart=now;hideBubble()}
+      }
+      else if(phase===16){if(t>=25600){doReset()}}
+
+      requestAnimationFrame(tick);
+    }
+
+    doReset();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
