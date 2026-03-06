@@ -1031,6 +1031,75 @@
       to   { opacity:1; transform: translateY(0); }
     }
 
+    /* ── JOIN CHOICE MODAL ── */
+    #join-modal {
+      display: none;
+      position: fixed; inset: 0; z-index: 7000;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+    }
+    #join-modal.open { display: flex; }
+    .join-modal-box {
+      background: linear-gradient(145deg, #0e2f6a, #0B2040);
+      border: 3px solid var(--gold);
+      border-radius: 20px;
+      padding: 50px 40px;
+      text-align: center;
+      max-width: 460px; width: 92%;
+      box-shadow: 0 0 60px rgba(255,179,0,0.2), 0 0 120px rgba(200,56,3,0.15);
+      animation: modalPop 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.75); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .jm-bear { font-size: 4.5rem; display: block; margin-bottom: 16px; }
+    .jm-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #fff; margin-bottom: 10px;
+    }
+    .jm-title span { color: var(--orange); }
+    .jm-sub {
+      font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-bottom: 10px;
+    }
+    .jm-perks {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin: 20px 0 30px;
+    }
+    .jm-perk {
+      background: rgba(200,56,3,0.15);
+      border: 1px solid rgba(200,56,3,0.35);
+      border-radius: 6px; padding: 8px 14px;
+      font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+    .jm-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .jm-yes {
+      flex: 1; min-width: 140px;
+      background: linear-gradient(135deg, var(--orange), #ff5500);
+      color: #fff; font-family: 'Anton', sans-serif;
+      font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase;
+      padding: 16px 24px; border-radius: 8px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 0 24px rgba(200,56,3,0.5);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .jm-yes:hover { transform: scale(1.04); box-shadow: 0 0 44px rgba(200,56,3,0.8); }
+    .jm-no {
+      flex: 1; min-width: 140px;
+      background: transparent; color: rgba(255,255,255,0.45);
+      font-family: 'Anton', sans-serif; font-size: 1.1rem;
+      letter-spacing: 4px; text-transform: uppercase;
+      padding: 14px 24px; border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.15); cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .jm-no:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
+
     /* scroll-in fade */
     .reveal {
       opacity: 0;
@@ -1071,7 +1140,7 @@
       </h1>
       <p class="hero-sub">Rulers of the Midway &nbsp;·&nbsp; Chicago &nbsp;·&nbsp; Est. 1920</p>
       <div class="hero-buttons">
-        <a class="btn-primary" href="join.html">Join the Club</a>
+        <a class="btn-primary" href="#" onclick="document.getElementById('join-modal').classList.add('open');return false;">Join the Club</a>
         <button class="btn-secondary" onclick="openExplore()">Explore &darr;</button>
       </div>
     </div>
@@ -1284,7 +1353,7 @@
           <li>Access to all club content</li>
           <li>Fear the Paw — for life</li>
         </ul>
-        <a class="join-btn" href="join.html">Join the Club</a>
+        <a class="join-btn" href="#" onclick="document.getElementById('join-modal').classList.add('open');return false;">Join the Club</a>
       </div>
     </section>
 
@@ -1363,6 +1432,25 @@
     <span class="ticker-inner">
       &nbsp;&nbsp;🐻 ROARING BEARS &nbsp;·&nbsp; RULERS OF THE MIDWAY &nbsp;·&nbsp; MEMBERSHIP: $5/MONTH + $1 TAX &nbsp;·&nbsp; PRESIDENTS: WILLIAM &amp; JAIYEN &nbsp;·&nbsp; VP: HENRY &nbsp;·&nbsp; CO-FOUNDER: TALON &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; FREE POSTERS &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
     </span>
+  </div>
+
+  <!-- JOIN CHOICE MODAL -->
+  <div id="join-modal">
+    <div class="join-modal-box">
+      <span class="jm-bear">🐻</span>
+      <div class="jm-title">Join the <span>Roaring Bears</span>?</div>
+      <div class="jm-sub">Rulers of the Midway &bull; Only $5/month</div>
+      <div class="jm-perks">
+        <div class="jm-perk">🖼️ Free Posters</div>
+        <div class="jm-perk">🏆 Club Access</div>
+        <div class="jm-perk">🔥 Bear Down</div>
+        <div class="jm-perk">⭐ Member Card</div>
+      </div>
+      <div class="jm-buttons">
+        <a class="jm-yes" href="join.html">Yes — Let's Go! 🐻</a>
+        <button class="jm-no" onclick="document.getElementById('join-modal').classList.remove('open')">Maybe Later</button>
+      </div>
+    </div>
   </div>
 
   <!-- CINEMATIC EXPLORE OVERLAY -->
