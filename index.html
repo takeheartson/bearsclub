@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Da Bears Club</title>
+  <title>Bears Club</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&display=swap');
 
@@ -111,21 +111,112 @@
       text-shadow: 0 0 30px rgba(255,179,0,0.5);
     }
 
-    /* ── NAV CARDS ── */
-    .cards-section {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px 80px;
+    /* ── LEADERSHIP ── */
+    .leadership-section {
+      max-width: 860px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      text-align: center;
     }
 
-    .cards-heading {
-      text-align: center;
+    .section-heading {
       font-family: 'Anton', sans-serif;
       font-size: clamp(1.2rem, 3vw, 1.8rem);
       letter-spacing: 5px;
       color: var(--orange);
       margin-bottom: 30px;
       text-transform: uppercase;
+    }
+
+    .leadership-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .leader-card {
+      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
+      border: 2px solid var(--orange);
+      border-radius: 8px;
+      padding: 28px 20px;
+    }
+
+    .leader-card.president {
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(255,179,0,0.2);
+    }
+
+    .leader-badge {
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .leader-role {
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+
+    .leader-card.president .leader-role {
+      color: var(--gold);
+    }
+
+    .leader-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    /* ── QR SECTION ── */
+    .qr-section {
+      max-width: 860px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .qr-box {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
+      border: 2px solid var(--orange);
+      border-radius: 8px;
+      padding: 32px 40px;
+      box-shadow: 0 0 30px rgba(200,56,3,0.25);
+    }
+
+    .qr-label {
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    #qrcode canvas, #qrcode img {
+      border-radius: 6px;
+      border: 6px solid #fff;
+      display: block;
+    }
+
+    .qr-url {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      word-break: break-all;
+    }
+
+    /* ── NAV CARDS ── */
+    .cards-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
     }
 
     .cards {
@@ -221,8 +312,8 @@
 <body>
 
   <header>
-    <div class="site-eyebrow">Welcome to</div>
-    <h1 class="site-title">Da <span>Bears</span><br>Club</h1>
+    <div class="site-eyebrow">Welcome to the Official</div>
+    <h1 class="site-title"><span>Bears</span><br>Club</h1>
     <p class="site-sub">Chicago &bull; Est. 1920</p>
     <div class="paw-divider">🐾 &nbsp; 🐾 &nbsp; 🐾</div>
   </header>
@@ -235,14 +326,47 @@
     "Ruler of the Midway &mdash; Fear the Paw"
   </div>
 
+  <!-- LEADERSHIP -->
+  <section class="leadership-section">
+    <div class="section-heading">Club Leadership</div>
+    <div class="leadership-grid">
+      <div class="leader-card president">
+        <div class="leader-badge">🏆</div>
+        <div class="leader-role">President</div>
+        <div class="leader-name">William</div>
+      </div>
+      <div class="leader-card president">
+        <div class="leader-badge">🏆</div>
+        <div class="leader-role">President</div>
+        <div class="leader-name">Jaiyen</div>
+      </div>
+      <div class="leader-card">
+        <div class="leader-badge">🐻</div>
+        <div class="leader-role">Vice President</div>
+        <div class="leader-name">Henry</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QR CODE -->
+  <section class="qr-section">
+    <div class="section-heading">Scan to Join</div>
+    <div class="qr-box">
+      <div class="qr-label">Bears Club &mdash; Official Site</div>
+      <div id="qrcode"></div>
+      <div class="qr-url">takeheartson.github.io/bearsclub</div>
+    </div>
+  </section>
+
+  <!-- NAV CARDS -->
   <section class="cards-section">
-    <div class="cards-heading">Explore Da Club</div>
+    <div class="section-heading">Explore Da Club</div>
     <div class="cards">
 
       <a class="card" href="bears/index.html">
         <div class="card-icon">🏈</div>
         <div class="card-title">Da Bears Poster</div>
-        <div class="card-desc">The official Da Bears poster wall. Caleb Williams. Soldier Field. Bear Down.</div>
+        <div class="card-desc">The official Bears poster wall. Caleb Williams. Soldier Field. Bear Down.</div>
         <div class="card-arrow">Enter &rarr;</div>
       </a>
 
@@ -263,13 +387,26 @@
     </div>
   </section>
 
-  <footer>Da Bears Club &copy; 2026 &nbsp;&bull;&nbsp; Bear Down, Chicago Bears</footer>
+  <footer>Bears Club &copy; 2026 &nbsp;&bull;&nbsp; Bear Down, Chicago Bears</footer>
 
   <div class="ticker">
     <span class="ticker-inner">
-      &nbsp;&nbsp;🐻 DA BEARS CLUB &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; CALEB WILLIAMS #18 &nbsp;·&nbsp; COLSTON LOVELAND #84 &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; RULER OF THE MIDWAY &nbsp;·&nbsp; DA BEARS CLUB &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
+      &nbsp;&nbsp;🐻 BEARS CLUB &nbsp;·&nbsp; PRESIDENTS: WILLIAM &amp; JAIYEN &nbsp;·&nbsp; VP: HENRY &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; RULER OF THE MIDWAY &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
     </span>
   </div>
+
+  <!-- QR Code library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    new QRCode(document.getElementById("qrcode"), {
+      text: "https://takeheartson.github.io/bearsclub",
+      width: 180,
+      height: 180,
+      colorDark: "#0B2040",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
 
 </body>
 </html>
