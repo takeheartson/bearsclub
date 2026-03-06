@@ -199,10 +199,12 @@
       color: var(--orange);
     }
 
-    #qrcode canvas, #qrcode img {
+    .qr-img {
       border-radius: 6px;
       border: 6px solid #fff;
       display: block;
+      width: 200px;
+      height: 200px;
     }
 
     .qr-url {
@@ -428,7 +430,7 @@
     <div class="section-heading">Free Posters</div>
     <div class="qr-box">
       <div class="qr-label">Scan for Free Posters</div>
-      <div id="qrcode"></div>
+      <img class="qr-img" src="qr.png" alt="QR code for takeheartson.github.io/bearsclub/">
       <div class="qr-url">takeheartson.github.io/bearsclub</div>
     </div>
   </section>
@@ -486,18 +488,6 @@
     </span>
   </div>
 
-  <!-- QR Code library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script>
-    new QRCode(document.getElementById("qrcode"), {
-      text: "https://takeheartson.github.io/bearsclub/",
-      width: 180,
-      height: 180,
-      colorDark: "#0B2040",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-  </script>
 
 </body>
 </html>
