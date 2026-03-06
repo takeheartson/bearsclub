@@ -793,6 +793,68 @@
     }
     .follow-tagline strong { color: var(--orange); }
 
+    /* ── POPUP MODAL ── */
+    #explore-popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      background: rgba(0,0,0,0.75);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    #explore-popup.open { display: flex; }
+    .popup-box {
+      background: linear-gradient(145deg, #0e2f6a, #0B2040);
+      border: 3px solid var(--orange);
+      border-radius: 16px;
+      padding: 50px 40px;
+      text-align: center;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 0 60px rgba(200,56,3,0.5);
+      animation: popIn 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .popup-icon { font-size: 4rem; margin-bottom: 16px; }
+    .popup-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-shadow: 0 0 20px rgba(200,56,3,0.5);
+      margin-bottom: 12px;
+    }
+    .popup-msg {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .popup-msg strong { color: var(--gold); }
+    .popup-close {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 20px rgba(200,56,3,0.5);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .popup-close:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(200,56,3,0.8); }
+
     /* scroll-in fade */
     .reveal {
       opacity: 0;
@@ -822,7 +884,7 @@
       <p class="hero-sub">Rulers of the Midway &nbsp;·&nbsp; Chicago &nbsp;·&nbsp; Est. 1920</p>
       <div class="hero-buttons">
         <a class="btn-primary" href="#content">Join the Club</a>
-        <a class="btn-secondary" href="#content">Explore &darr;</a>
+        <a class="btn-secondary" href="#" onclick="document.getElementById('explore-popup').classList.add('open');return false;">Explore &darr;</a>
       </div>
     </div>
 
@@ -1072,6 +1134,21 @@
     <span class="ticker-inner">
       &nbsp;&nbsp;🐻 ROARING BEARS &nbsp;·&nbsp; RULERS OF THE MIDWAY &nbsp;·&nbsp; MEMBERSHIP: $5/MONTH + $1 TAX &nbsp;·&nbsp; PRESIDENTS: WILLIAM &amp; JAIYEN &nbsp;·&nbsp; VP: HENRY &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; FREE POSTERS &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
     </span>
+  </div>
+
+  <!-- EXPLORE POPUP -->
+  <div id="explore-popup">
+    <div class="popup-box">
+      <div class="popup-icon">🐻</div>
+      <div class="popup-title">Join the Club!</div>
+      <div class="popup-msg">
+        Please join the club and<br>
+        <strong>get free posters!</strong><br><br>
+        Membership is only <strong>$5/month</strong><br>
+        and includes exclusive Bears Club perks.
+      </div>
+      <button class="popup-close" onclick="document.getElementById('explore-popup').classList.remove('open')">Got It!</button>
+    </div>
   </div>
 
   <!-- PASSCODE GATE -->
