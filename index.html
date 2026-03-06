@@ -11,9 +11,11 @@
 
     :root {
       --orange: #C83803;
-      --navy:   #0B2040;
+      --navy:   #060f1d;
       --gold:   #FFB300;
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--navy);
@@ -23,159 +25,274 @@
       overflow-x: hidden;
     }
 
+    /* ── PARTICLES CANVAS ── */
+    #particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     /* ── HEADER ── */
     header {
-      background: linear-gradient(135deg, #060f1d 0%, #0b2040 60%, #1a0a00 100%);
-      border-bottom: 4px solid var(--orange);
-      padding: 60px 20px 50px;
-      text-align: center;
       position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 80px 20px 70px;
       overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,56,3,0.18) 0%, transparent 70%),
+                  linear-gradient(180deg, #090e1a 0%, #060f1d 100%);
+      border-bottom: 3px solid var(--orange);
     }
-    header::before {
-      content: '🐻';
+
+    /* animated fire lines behind title */
+    header::after {
+      content: '';
       position: absolute;
-      font-size: 22rem;
-      opacity: 0.04;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 120px,
+        rgba(200,56,3,0.04) 120px,
+        rgba(200,56,3,0.04) 121px
+      );
       pointer-events: none;
-      user-select: none;
     }
 
     .site-eyebrow {
-      font-size: clamp(0.7rem, 2vw, 1rem);
-      letter-spacing: 8px;
+      font-size: clamp(0.65rem, 2vw, 0.9rem);
+      letter-spacing: 10px;
       text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 10px;
+      color: var(--gold);
+      margin-bottom: 16px;
+      animation: fadeDown 0.8s ease both;
     }
 
     .site-title {
-      font-family: 'Anton', 'Arial Black', sans-serif;
-      font-size: clamp(4rem, 14vw, 10rem);
-      line-height: 0.9;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(5rem, 18vw, 13rem);
+      line-height: 0.88;
       text-transform: uppercase;
       color: #fff;
-      text-shadow:
-        4px 4px 0 var(--orange),
-        8px 8px 0 rgba(200,56,3,0.3);
       letter-spacing: 2px;
+      animation: blastIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+      position: relative;
     }
 
-    .site-title span {
-      color: var(--orange);
+    /* chrome / metallic shine sweep */
+    .site-title::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear 1.5s infinite;
+      pointer-events: none;
     }
+
+    @keyframes shine {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .site-title .word-roaring { color: var(--orange); display: block; }
+    .site-title .word-bears   { color: #fff; display: block; }
 
     .site-sub {
-      margin-top: 20px;
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      letter-spacing: 6px;
-      color: rgba(255,255,255,0.6);
+      margin-top: 22px;
+      font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+      letter-spacing: 7px;
+      color: rgba(255,255,255,0.55);
       text-transform: uppercase;
+      animation: fadeUp 0.8s ease 0.4s both;
     }
 
-    .paw-divider {
-      margin: 20px auto 0;
-      font-size: 1.5rem;
-      letter-spacing: 10px;
-      color: var(--orange);
-      opacity: 0.7;
+    .paw-row {
+      margin-top: 24px;
+      font-size: 1.6rem;
+      letter-spacing: 12px;
+      animation: fadeUp 0.8s ease 0.6s both;
+    }
+    .paw-row span { animation: pulse 2s ease-in-out infinite; display: inline-block; }
+    .paw-row span:nth-child(2) { animation-delay: 0.3s; }
+    .paw-row span:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50%       { transform: scale(1.3); opacity: 1; }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blastIn {
+      from { opacity: 0; transform: scale(1.3); filter: blur(12px); }
+      to   { opacity: 1; transform: scale(1);   filter: blur(0); }
     }
 
     /* ── HERO IMAGE ── */
     .hero {
-      max-width: 700px;
-      margin: 50px auto 20px;
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 60px auto 0;
       padding: 0 20px;
       text-align: center;
+      animation: fadeUp 0.9s ease 0.5s both;
     }
+    .hero-frame {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .hero-frame::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 12px;
+      background: conic-gradient(
+        var(--orange) 0deg, var(--gold) 90deg,
+        var(--orange) 180deg, var(--gold) 270deg, var(--orange) 360deg
+      );
+      animation: spin 4s linear infinite;
+      z-index: -1;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .hero img {
       width: 100%;
-      border-radius: 8px;
-      border: 3px solid var(--orange);
-      box-shadow:
-        0 0 40px rgba(200,56,3,0.5),
-        0 0 100px rgba(200,56,3,0.2);
+      display: block;
+      border-radius: 10px;
+      position: relative;
     }
 
     /* ── MOTTO ── */
     .motto {
+      position: relative;
+      z-index: 1;
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       font-family: 'Anton', sans-serif;
-      font-size: clamp(1.4rem, 4vw, 2.4rem);
-      letter-spacing: 4px;
+      font-size: clamp(1.4rem, 4vw, 2.6rem);
+      letter-spacing: 5px;
       color: var(--gold);
-      text-shadow: 0 0 30px rgba(255,179,0,0.5);
+      text-shadow: 0 0 40px rgba(255,179,0,0.6), 0 0 80px rgba(255,179,0,0.2);
     }
 
-    /* ── LEADERSHIP ── */
-    .leadership-section {
-      max-width: 860px;
-      margin: 0 auto 60px;
-      padding: 0 20px;
-      text-align: center;
+    /* ── SECTION WRAPPER ── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
     }
 
     .section-heading {
       font-family: 'Anton', sans-serif;
       font-size: clamp(1.2rem, 3vw, 1.8rem);
-      letter-spacing: 5px;
+      letter-spacing: 6px;
       color: var(--orange);
       margin-bottom: 30px;
       text-transform: uppercase;
+      text-align: center;
+      position: relative;
+    }
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--orange);
+      margin: 10px auto 0;
+      border-radius: 2px;
+      box-shadow: 0 0 12px var(--orange);
+    }
+
+    /* ── LEADERSHIP ── */
+    .leadership-section {
+      max-width: 900px;
+      margin: 0 auto 70px;
+      padding: 0 20px;
     }
 
     .leadership-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
     }
 
     .leader-card {
-      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
-      border: 2px solid var(--orange);
-      border-radius: 8px;
-      padding: 28px 20px;
+      background: linear-gradient(145deg, #0d2240 0%, #060f1d 100%);
+      border: 2px solid rgba(200,56,3,0.5);
+      border-radius: 12px;
+      padding: 32px 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .leader-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(200,56,3,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .leader-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 40px rgba(200,56,3,0.4), 0 10px 40px rgba(0,0,0,0.5);
     }
 
     .leader-card.president {
       border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(255,179,0,0.2);
+      box-shadow: 0 0 30px rgba(255,179,0,0.15);
+    }
+    .leader-card.president::before {
+      background: radial-gradient(circle, rgba(255,179,0,0.08) 0%, transparent 60%);
+    }
+    .leader-card.president:hover {
+      box-shadow: 0 0 50px rgba(255,179,0,0.4), 0 10px 40px rgba(0,0,0,0.5);
     }
 
     .leader-badge {
-      font-size: 2.8rem;
-      line-height: 1;
-      margin-bottom: 12px;
+      font-size: 3.2rem;
+      margin-bottom: 14px;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(255,179,0,0.5));
     }
 
     .leader-role {
-      font-size: 0.75rem;
-      letter-spacing: 5px;
+      font-size: 0.7rem;
+      letter-spacing: 6px;
       text-transform: uppercase;
       color: var(--orange);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-
-    .leader-card.president .leader-role {
-      color: var(--gold);
-    }
+    .leader-card.president .leader-role { color: var(--gold); }
 
     .leader-name {
       font-family: 'Anton', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 2px;
+      font-size: 2.2rem;
+      letter-spacing: 3px;
       color: #fff;
       text-transform: uppercase;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.4);
     }
 
     /* ── QR SECTION ── */
     .qr-section {
-      max-width: 860px;
-      margin: 0 auto 60px;
+      max-width: 900px;
+      margin: 0 auto 70px;
       padding: 0 20px;
       text-align: center;
     }
@@ -184,60 +301,89 @@
       display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
-      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
+      gap: 18px;
+      background: linear-gradient(145deg, #0d2240 0%, #060f1d 100%);
       border: 2px solid var(--orange);
-      border-radius: 8px;
-      padding: 32px 40px;
-      box-shadow: 0 0 30px rgba(200,56,3,0.25);
+      border-radius: 16px;
+      padding: 36px 50px;
+      box-shadow: 0 0 50px rgba(200,56,3,0.3), 0 0 100px rgba(200,56,3,0.1);
+      transition: box-shadow 0.2s;
+    }
+    .qr-box:hover {
+      box-shadow: 0 0 80px rgba(200,56,3,0.5), 0 0 120px rgba(200,56,3,0.15);
     }
 
     .qr-label {
-      font-size: 0.75rem;
-      letter-spacing: 5px;
+      font-size: 0.8rem;
+      letter-spacing: 6px;
       text-transform: uppercase;
-      color: var(--orange);
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(255,179,0,0.5);
     }
 
     .qr-img {
-      border-radius: 6px;
-      border: 6px solid #fff;
+      border-radius: 8px;
+      border: 8px solid #fff;
       display: block;
       width: 200px;
       height: 200px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
     }
 
     .qr-url {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       letter-spacing: 2px;
-      color: rgba(255,255,255,0.4);
-      word-break: break-all;
+      color: rgba(255,255,255,0.35);
     }
 
     /* ── MEMBERSHIP ── */
     .membership-section {
-      max-width: 500px;
-      margin: 0 auto 60px;
+      max-width: 520px;
+      margin: 0 auto 70px;
       padding: 0 20px;
       text-align: center;
     }
 
     .membership-box {
-      background: linear-gradient(145deg, #1a0a00 0%, #0f2a4a 100%);
+      background: linear-gradient(145deg, #1c0c00 0%, #0d2240 100%);
       border: 3px solid var(--gold);
-      border-radius: 12px;
-      padding: 40px 30px;
-      box-shadow: 0 0 40px rgba(255,179,0,0.2), 0 0 80px rgba(200,56,3,0.1);
+      border-radius: 16px;
+      padding: 46px 34px;
+      box-shadow: 0 0 60px rgba(255,179,0,0.2), 0 0 120px rgba(200,56,3,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .membership-box::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: -40%;
+      width: 180%;
+      height: 180%;
+      background: radial-gradient(circle, rgba(255,179,0,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .membership-tag {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(200,56,3,0.5);
     }
 
     .membership-price {
       font-family: 'Anton', sans-serif;
-      font-size: clamp(4rem, 12vw, 7rem);
+      font-size: clamp(5rem, 14vw, 8rem);
       line-height: 1;
       color: var(--gold);
-      text-shadow: 0 0 30px rgba(255,179,0,0.5);
+      text-shadow: 0 0 40px rgba(255,179,0,0.6);
     }
-
     .membership-price sup {
       font-size: 0.4em;
       vertical-align: top;
@@ -248,106 +394,131 @@
       font-size: 1rem;
       letter-spacing: 5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 24px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 28px;
+    }
+    .membership-period small {
+      display: block;
+      font-size: 0.65em;
+      margin-top: 4px;
+      color: rgba(255,255,255,0.3);
     }
 
     .membership-perks {
       list-style: none;
-      margin: 20px 0 28px;
+      margin: 0 0 32px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      text-align: left;
     }
-
     .membership-perks li {
       font-size: 1rem;
       letter-spacing: 2px;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .membership-perks li::before {
-      content: '🐻 ';
+      color: rgba(255,255,255,0.85);
+      padding-left: 8px;
+      border-left: 3px solid var(--orange);
     }
 
     .join-btn {
       display: inline-block;
-      background: var(--orange);
+      background: linear-gradient(135deg, var(--orange) 0%, #ff5500 100%);
       color: #fff;
       font-family: 'Anton', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: 4px;
+      font-size: 1.4rem;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      padding: 16px 40px;
-      border-radius: 6px;
+      padding: 18px 50px;
+      border-radius: 8px;
       text-decoration: none;
-      box-shadow: 0 0 20px rgba(200,56,3,0.5);
+      box-shadow: 0 0 30px rgba(200,56,3,0.6), 0 4px 20px rgba(0,0,0,0.4);
       transition: transform 0.1s, box-shadow 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .join-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: btnShine 2.5s linear infinite;
+    }
+    @keyframes btnShine {
+      to { left: 160%; }
     }
     .join-btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 40px rgba(200,56,3,0.8);
+      transform: scale(1.05);
+      box-shadow: 0 0 60px rgba(200,56,3,0.9), 0 6px 30px rgba(0,0,0,0.5);
     }
 
     /* ── NAV CARDS ── */
     .cards-section {
-      max-width: 1000px;
+      max-width: 1020px;
       margin: 0 auto;
-      padding: 0 20px 80px;
+      padding: 0 20px 100px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
     }
 
     .card {
-      background: linear-gradient(145deg, #0f2a4a 0%, #061424 100%);
-      border: 2px solid var(--orange);
-      border-radius: 8px;
-      padding: 30px 24px;
+      background: linear-gradient(145deg, #0d2240 0%, #060f1d 100%);
+      border: 2px solid rgba(200,56,3,0.4);
+      border-radius: 12px;
+      padding: 34px 26px;
       text-decoration: none;
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--gold), var(--orange));
+      transform: scaleX(0);
+      transition: transform 0.2s;
     }
     .card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 0 30px rgba(200,56,3,0.6), 0 8px 30px rgba(0,0,0,0.5);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 40px rgba(200,56,3,0.5), 0 12px 40px rgba(0,0,0,0.6);
       border-color: var(--gold);
     }
+    .card:hover::before { transform: scaleX(1); }
 
-    .card-icon {
-      font-size: 3.5rem;
-      line-height: 1;
-    }
-
+    .card-icon { font-size: 3.8rem; line-height: 1; filter: drop-shadow(0 0 10px rgba(255,179,0,0.4)); }
     .card-title {
       font-family: 'Anton', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--orange);
       text-align: center;
     }
-
     .card-desc {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.65);
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
       text-align: center;
       letter-spacing: 1px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
-
     .card-arrow {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--gold);
       margin-top: auto;
+      letter-spacing: 2px;
     }
 
     /* ── TICKER ── */
@@ -355,20 +526,22 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-      background: var(--orange);
+      background: linear-gradient(90deg, #a02e00, var(--orange), #a02e00);
       color: #fff;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 4px;
       text-transform: uppercase;
       overflow: hidden;
-      padding: 10px 0;
+      padding: 11px 0;
       z-index: 100;
+      border-top: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 -4px 30px rgba(200,56,3,0.5);
     }
     .ticker-inner {
       display: inline-block;
       white-space: nowrap;
-      animation: tick 22s linear infinite;
+      animation: tick 26s linear infinite;
     }
     @keyframes tick {
       from { transform: translateX(100vw); }
@@ -377,48 +550,60 @@
 
     /* ── FOOTER ── */
     footer {
+      position: relative;
+      z-index: 1;
       text-align: center;
-      padding: 24px 20px 60px;
-      color: rgba(255,255,255,0.3);
-      font-size: 0.8rem;
-      letter-spacing: 3px;
+      padding: 28px 20px 70px;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.75rem;
+      letter-spacing: 4px;
       text-transform: uppercase;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
   </style>
 </head>
 <body>
 
+  <canvas id="particles"></canvas>
+
   <header>
-    <div class="site-eyebrow">Welcome to the Official</div>
-    <h1 class="site-title"><span>Roaring</span><br>Bears</h1>
-    <p class="site-sub">Rulers of the Midway &bull; Chicago &bull; Est. 1920</p>
-    <div class="paw-divider">🐾 &nbsp; 🐾 &nbsp; 🐾</div>
+    <div class="site-eyebrow">★ &nbsp; Welcome to the Official &nbsp; ★</div>
+    <h1 class="site-title" data-text="Roaring Bears">
+      <span class="word-roaring">Roaring</span>
+      <span class="word-bears">Bears</span>
+    </h1>
+    <p class="site-sub">Rulers of the Midway &nbsp;&bull;&nbsp; Chicago &nbsp;&bull;&nbsp; Est. 1920</p>
+    <div class="paw-row">
+      <span>🐾</span>&nbsp;<span>🐾</span>&nbsp;<span>🐾</span>
+    </div>
   </header>
 
-  <div class="hero">
-    <img src="Copilot_20260305_184201.png" alt="The Roaring Bears – Ruler of the Midway">
+  <div class="hero section-wrap">
+    <div class="hero-frame">
+      <img src="Copilot_20260305_184201.png" alt="The Roaring Bears – Ruler of the Midway">
+    </div>
   </div>
 
-  <div class="motto">
-    "Ruler of the Midway &mdash; Fear the Paw"
+  <div class="motto section-wrap">
+    ★ &nbsp; "Ruler of the Midway &mdash; Fear the Paw" &nbsp; ★
   </div>
 
   <!-- LEADERSHIP -->
-  <section class="leadership-section">
+  <section class="leadership-section section-wrap">
     <div class="section-heading">Club Leadership</div>
     <div class="leadership-grid">
       <div class="leader-card president">
-        <div class="leader-badge">🏆</div>
+        <span class="leader-badge">🏆</span>
         <div class="leader-role">President</div>
         <div class="leader-name">William</div>
       </div>
       <div class="leader-card president">
-        <div class="leader-badge">🏆</div>
+        <span class="leader-badge">🏆</span>
         <div class="leader-role">President</div>
         <div class="leader-name">Jaiyen</div>
       </div>
       <div class="leader-card">
-        <div class="leader-badge">🐻</div>
+        <span class="leader-badge">🐻</span>
         <div class="leader-role">Vice President</div>
         <div class="leader-name">Henry</div>
       </div>
@@ -426,21 +611,25 @@
   </section>
 
   <!-- QR CODE -->
-  <section class="qr-section">
+  <section class="qr-section section-wrap">
     <div class="section-heading">Free Posters</div>
     <div class="qr-box">
-      <div class="qr-label">Scan for Free Posters</div>
+      <div class="qr-label">★ &nbsp; Scan for Free Posters &nbsp; ★</div>
       <img class="qr-img" src="qr.png" alt="QR code for takeheartson.github.io/bearsclub/">
       <div class="qr-url">takeheartson.github.io/bearsclub</div>
     </div>
   </section>
 
   <!-- MEMBERSHIP -->
-  <section class="membership-section">
+  <section class="membership-section section-wrap">
     <div class="section-heading">Membership</div>
     <div class="membership-box">
+      <div class="membership-tag">Official Member</div>
       <div class="membership-price"><sup>$</sup>5</div>
-      <div class="membership-period">per month <span style="font-size:0.6em;color:rgba(255,255,255,0.4);">+ $1 tax = $6 total</span></div>
+      <div class="membership-period">
+        per month
+        <small>+ $1 tax &nbsp;=&nbsp; $6 total</small>
+      </div>
       <ul class="membership-perks">
         <li>Official Roaring Bears member</li>
         <li>Free posters included</li>
@@ -452,31 +641,27 @@
   </section>
 
   <!-- NAV CARDS -->
-  <section class="cards-section">
+  <section class="cards-section section-wrap">
     <div class="section-heading">Explore Da Club</div>
     <div class="cards">
-
       <a class="card" href="bears/index.html">
         <div class="card-icon">🏈</div>
         <div class="card-title">Da Bears Poster</div>
         <div class="card-desc">The official Bears poster wall. Caleb Williams. Soldier Field. Bear Down.</div>
         <div class="card-arrow">Enter &rarr;</div>
       </a>
-
       <a class="card" href="bear.html">
         <div class="card-icon">🐻</div>
         <div class="card-title">Bear Chomps</div>
         <div class="card-desc">A very hungry bear having a great day. The bunny is not having a great day.</div>
         <div class="card-arrow">Watch &rarr;</div>
       </a>
-
       <a class="card" href="bear-viking.html">
         <div class="card-icon">⚔️</div>
         <div class="card-title">Bear Viking</div>
         <div class="card-desc">What happens when a bear becomes a viking? Only one way to find out.</div>
         <div class="card-arrow">Raid &rarr;</div>
       </a>
-
     </div>
   </section>
 
@@ -484,10 +669,75 @@
 
   <div class="ticker">
     <span class="ticker-inner">
-      &nbsp;&nbsp;🐻 ROARING BEARS &nbsp;·&nbsp; RULERS OF THE MIDWAY &nbsp;·&nbsp; MEMBERSHIP: $5/MONTH + $1 TAX &nbsp;·&nbsp; PRESIDENTS: WILLIAM &amp; JAIYEN &nbsp;·&nbsp; VP: HENRY &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
+      &nbsp;&nbsp;🐻 ROARING BEARS &nbsp;·&nbsp; RULERS OF THE MIDWAY &nbsp;·&nbsp; MEMBERSHIP: $5/MONTH + $1 TAX &nbsp;·&nbsp; PRESIDENTS: WILLIAM &amp; JAIYEN &nbsp;·&nbsp; VP: HENRY &nbsp;·&nbsp; CHICAGO BEARS &nbsp;·&nbsp; ESTABLISHED 1920 &nbsp;·&nbsp; SOLDIER FIELD &nbsp;·&nbsp; BEAR DOWN &nbsp;·&nbsp; FEAR THE PAW &nbsp;·&nbsp; FREE POSTERS &nbsp;·&nbsp; 🐻&nbsp;&nbsp;
     </span>
   </div>
 
+  <script>
+    // Floating ember particles
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function randomParticle() {
+      return {
+        x: Math.random() * W,
+        y: H + 10,
+        r: Math.random() * 2 + 0.5,
+        speed: Math.random() * 0.6 + 0.3,
+        drift: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.5 + 0.1,
+        color: Math.random() > 0.5 ? '#C83803' : '#FFB300',
+      };
+    }
+
+    for (let i = 0; i < 60; i++) {
+      const p = randomParticle();
+      p.y = Math.random() * H;
+      particles.push(p);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        p.y -= p.speed;
+        p.x += p.drift;
+        if (p.y < -10) Object.assign(p, randomParticle());
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Scroll-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.leader-card, .card, .membership-box, .qr-box').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
 
 </body>
 </html>
