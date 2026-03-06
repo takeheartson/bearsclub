@@ -1140,7 +1140,7 @@
       </h1>
       <p class="hero-sub">Rulers of the Midway &nbsp;·&nbsp; Chicago &nbsp;·&nbsp; Est. 1920</p>
       <div class="hero-buttons">
-        <a class="btn-primary" href="#" onclick="document.getElementById('join-modal').classList.add('open');return false;">Join the Club</a>
+        <a class="btn-primary" href="javascript:void(0)" onclick="openJoin()">Join the Club</a>
         <button class="btn-secondary" onclick="openExplore()">Explore &darr;</button>
       </div>
     </div>
@@ -1353,7 +1353,7 @@
           <li>Access to all club content</li>
           <li>Fear the Paw — for life</li>
         </ul>
-        <a class="join-btn" href="#" onclick="document.getElementById('join-modal').classList.add('open');return false;">Join the Club</a>
+        <a class="join-btn" href="javascript:void(0)" onclick="openJoin()">Join the Club</a>
       </div>
     </section>
 
@@ -1629,6 +1629,16 @@
   </style>
 
   <script>
+    /* ── JOIN MODAL ── */
+    function openJoin() {
+      document.getElementById('join-modal').classList.add('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('join-modal').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+      });
+    });
+
     /* ── CINEMATIC EXPLORE ── */
     let epAnimFrame;
     function openExplore() {
