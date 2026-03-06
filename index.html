@@ -849,10 +849,9 @@
       background: #020810;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       text-align: center;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
     #explore-popup.open { display: flex; }
 
@@ -1011,8 +1010,10 @@
       transition: transform 0.1s, box-shadow 0.1s;
       position: relative;
       overflow: hidden;
-      margin-top: 30px;
-      margin-bottom: 10px;
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
       opacity: 0;
       animation: epFadeUp 0.6s ease 0.1s forwards;
     }
