@@ -903,7 +903,7 @@
       letter-spacing: 10px;
       text-transform: uppercase;
       color: var(--gold);
-      margin-top: 160px;
+      margin-top: 20px;
       margin-bottom: 14px;
       opacity: 0;
       animation: epFadeDown 0.5s ease 0.1s forwards;
@@ -1010,8 +1010,10 @@
       transition: transform 0.1s, box-shadow 0.1s;
       position: relative;
       overflow: hidden;
+      margin-top: 20px;
+      margin-bottom: 10px;
       opacity: 0;
-      animation: epFadeUp 0.6s ease 1.5s forwards;
+      animation: epFadeUp 0.6s ease 0.1s forwards;
     }
     .ep-close::after {
       content: '';
@@ -1457,6 +1459,7 @@
   <div id="explore-popup">
     <canvas id="ep-canvas"></canvas>
     <div class="ep-inner">
+      <button class="ep-close" id="ep-close-btn">Bear Down &nbsp;🐻</button>
       <div class="ep-eyebrow">★ &nbsp; Welcome to &nbsp; ★</div>
 
       <div class="ep-bear-wrap">
@@ -1524,7 +1527,6 @@
       </div>
 
       <div class="ep-tagline"><strong>DA BEARS RULE</strong> &nbsp;·&nbsp; Join the club &nbsp;·&nbsp; <strong>Get free posters</strong></div>
-      <button class="ep-close" id="ep-close-btn">Bear Down &nbsp;🐻</button>
     </div>
   </div>
 
