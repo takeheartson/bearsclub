@@ -203,18 +203,21 @@
       animation: fadeUp 1s ease 1.6s forwards;
     }
     .scroll-hint span {
-      font-size: 0.6rem;
-      letter-spacing: 5px;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 8px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.75);
+      text-shadow: 0 0 20px rgba(200,56,3,0.6);
     }
     .scroll-arrow {
-      width: 22px;
-      height: 22px;
-      border-right: 2px solid rgba(255,255,255,0.3);
-      border-bottom: 2px solid rgba(255,255,255,0.3);
+      width: 36px;
+      height: 36px;
+      border-right: 3px solid var(--orange);
+      border-bottom: 3px solid var(--orange);
       transform: rotate(45deg);
       animation: bounce 1.5s ease-in-out infinite;
+      box-shadow: 4px 4px 10px rgba(200,56,3,0.4);
     }
     @keyframes bounce {
       0%, 100% { transform: rotate(45deg) translateY(0); }
@@ -927,7 +930,7 @@
     </div>
 
     <div class="scroll-hint">
-      <span>Scroll</span>
+      <span>Scroll Down</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
