@@ -23,97 +23,6 @@
     }
 
     /* ════════════════════════════════════
-       PASSCODE GATE
-    ════════════════════════════════════ */
-    #gate {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: radial-gradient(ellipse at 50% 50%, #0a1f4a 0%, #040c1a 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-    }
-    #gate .gate-bear { font-size: 5rem; animation: bearFloat 3s ease-in-out infinite; }
-    #gate .gate-title {
-      font-family: 'Anton', sans-serif;
-      font-size: clamp(2rem, 8vw, 3.5rem);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--orange);
-      text-shadow: 0 0 30px rgba(200,56,3,0.6);
-      text-align: center;
-    }
-    #gate .gate-sub {
-      font-size: 0.75rem;
-      letter-spacing: 7px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-    }
-    #gate .gate-dots {
-      display: flex;
-      gap: 14px;
-    }
-    .gate-dot {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2);
-      background: transparent;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    }
-    .gate-dot.filled {
-      background: var(--orange);
-      border-color: var(--orange);
-      box-shadow: 0 0 14px rgba(200,56,3,0.8);
-    }
-    #gate .gate-keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .key-btn {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: #fff;
-      font-family: 'Anton', sans-serif;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: background 0.12s, border-color 0.12s, transform 0.08s;
-    }
-    .key-btn:hover { background: rgba(200,56,3,0.2); border-color: var(--orange); }
-    .key-btn:active { transform: scale(0.93); background: rgba(200,56,3,0.4); }
-    .key-btn.zero { grid-column: 2; }
-    .key-btn.del  { grid-column: 3; font-size: 1.1rem; color: rgba(255,255,255,0.5); }
-
-    #gate .gate-error {
-      font-size: 0.75rem;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: #ff4444;
-      min-height: 1.2em;
-      text-shadow: 0 0 12px rgba(255,68,68,0.6);
-    }
-    #gate.shake { animation: gateShake 0.4s ease; }
-    @keyframes gateShake {
-      0%, 100% { transform: translateX(0); }
-      20%       { transform: translateX(-10px); }
-      40%       { transform: translateX(10px); }
-      60%       { transform: translateX(-8px); }
-      80%       { transform: translateX(8px); }
-    }
-    #gate.unlocking { animation: gateUnlock 0.5s ease forwards; }
-    @keyframes gateUnlock {
-      to { opacity: 0; pointer-events: none; }
-    }
-
-    /* ════════════════════════════════════
        HERO — full-screen landing
     ════════════════════════════════════ */
     #hero {
@@ -1152,33 +1061,6 @@
     </div>
   </div>
 
-  <!-- PASSCODE GATE -->
-  <div id="gate">
-    <div class="gate-bear">🐻</div>
-    <div class="gate-title">Roaring Bears</div>
-    <div class="gate-sub">Members Only — Enter Code</div>
-    <div class="gate-dots">
-      <div class="gate-dot" id="d0"></div>
-      <div class="gate-dot" id="d1"></div>
-      <div class="gate-dot" id="d2"></div>
-      <div class="gate-dot" id="d3"></div>
-    </div>
-    <div class="gate-keypad">
-      <button class="key-btn" onclick="pressKey('1')">1</button>
-      <button class="key-btn" onclick="pressKey('2')">2</button>
-      <button class="key-btn" onclick="pressKey('3')">3</button>
-      <button class="key-btn" onclick="pressKey('4')">4</button>
-      <button class="key-btn" onclick="pressKey('5')">5</button>
-      <button class="key-btn" onclick="pressKey('6')">6</button>
-      <button class="key-btn" onclick="pressKey('7')">7</button>
-      <button class="key-btn" onclick="pressKey('8')">8</button>
-      <button class="key-btn" onclick="pressKey('9')">9</button>
-      <button class="key-btn zero" onclick="pressKey('0')">0</button>
-      <button class="key-btn del" onclick="delKey()">&#9003;</button>
-    </div>
-    <div class="gate-error" id="gate-error"></div>
-  </div>
-
   <style>
     /* mascot — kept here to fix script tag corruption */
     .mascot-section {
@@ -1289,38 +1171,6 @@
         if (e.target === this) this.classList.remove('open');
       });
     });
-
-    /* ── PASSCODE ── */
-    const CODE = '5126';
-    let entered = '';
-    function pressKey(k) {
-      if (entered.length >= 4) return;
-      entered += k;
-      document.getElementById('d' + (entered.length - 1)).classList.add('filled');
-      if (entered.length === 4) checkCode();
-    }
-    function delKey() {
-      if (!entered.length) return;
-      document.getElementById('d' + (entered.length - 1)).classList.remove('filled');
-      entered = entered.slice(0, -1);
-    }
-    function checkCode() {
-      if (entered === CODE) {
-        const gate = document.getElementById('gate');
-        gate.classList.add('unlocking');
-        setTimeout(() => gate.remove(), 500);
-      } else {
-        const gate = document.getElementById('gate');
-        document.getElementById('gate-error').textContent = 'Wrong code — try again';
-        gate.classList.add('shake');
-        setTimeout(() => {
-          gate.classList.remove('shake');
-          document.getElementById('gate-error').textContent = '';
-          entered = '';
-          document.querySelectorAll('.gate-dot').forEach(d => d.classList.remove('filled'));
-        }, 600);
-      }
-    }
 
     /* ── EMBER PARTICLES (full page) ── */
     const pc = document.getElementById('particles');
