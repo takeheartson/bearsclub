@@ -33,7 +33,6 @@
       justify-content: space-between;
       padding: 14px 32px;
       background: rgba(6,15,29,0.7);
-      backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(200,56,3,0.3);
       transition: background 0.3s;
     }
@@ -437,8 +436,8 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes titleBlast {
-      from { opacity: 0; transform: scale(1.15); filter: blur(16px); }
-      to   { opacity: 1; transform: scale(1);    filter: blur(0); }
+      from { opacity: 0; transform: scale(1.15); }
+      to   { opacity: 1; transform: scale(1); }
     }
 
     /* ════════════════════════════════════
@@ -994,8 +993,8 @@
       50%      { transform: translateY(-14px) rotate(1deg); }
     }
     @keyframes epBearIn {
-      from { opacity:0; transform: scale(0.4) rotate(-10deg); filter: blur(20px); }
-      to   { opacity:1; transform: scale(1) rotate(0deg);     filter: blur(0); }
+      from { opacity:0; transform: scale(0.4) rotate(-10deg); }
+      to   { opacity:1; transform: scale(1) rotate(0deg); }
     }
 
     .ep-title {
@@ -1011,8 +1010,8 @@
     .ep-title .t1 { display: block; color: var(--orange); text-shadow: 0 0 50px rgba(200,56,3,0.9), 0 0 100px rgba(200,56,3,0.4); }
     .ep-title .t2 { display: block; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.3); }
     @keyframes epTitleBlast {
-      from { opacity:0; transform: scale(1.4); filter: blur(20px); }
-      to   { opacity:1; transform: scale(1);   filter: blur(0); }
+      from { opacity:0; transform: scale(1.4); }
+      to   { opacity:1; transform: scale(1); }
     }
 
     .ep-ruler {
@@ -1110,7 +1109,6 @@
       display: none;
       position: fixed; inset: 0; z-index: 7000;
       background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(6px);
       align-items: center; justify-content: center;
     }
     #join-modal.open { display: flex; }
@@ -1556,11 +1554,11 @@
             <filter id="epGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <filter id="epStrong"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <ellipse cx="72" cy="72" rx="34" ry="34" fill="url(#epBodyGrad)" filter="url(#epGlow)"/>
+          <ellipse cx="72" cy="72" rx="34" ry="34" fill="url(#epBodyGrad)"/>
           <ellipse cx="72" cy="72" rx="20" ry="20" fill="#60dfff" opacity="0.6"/>
-          <ellipse cx="188" cy="72" rx="34" ry="34" fill="url(#epBodyGrad)" filter="url(#epGlow)"/>
+          <ellipse cx="188" cy="72" rx="34" ry="34" fill="url(#epBodyGrad)"/>
           <ellipse cx="188" cy="72" rx="20" ry="20" fill="#60dfff" opacity="0.6"/>
-          <ellipse cx="130" cy="128" rx="88" ry="82" fill="url(#epBodyGrad)" filter="url(#epGlow)"/>
+          <ellipse cx="130" cy="128" rx="88" ry="82" fill="url(#epBodyGrad)"/>
           <ellipse cx="130" cy="105" rx="70" ry="18" fill="#0070c8" opacity="0.5"/>
           <ellipse cx="130" cy="158" rx="46" ry="34" fill="url(#epSnoutGrad)"/>
           <ellipse cx="130" cy="145" rx="18" ry="11" fill="#003870"/>
@@ -1568,20 +1566,20 @@
           <path d="M112 160 Q130 174 148 160" stroke="#003870" stroke-width="3.5" fill="none" stroke-linecap="round"/>
           <ellipse cx="102" cy="118" rx="18" ry="18" fill="#001c40"/>
           <ellipse cx="158" cy="118" rx="18" ry="18" fill="#001c40"/>
-          <ellipse cx="102" cy="118" rx="11" ry="11" fill="#00c0ff" filter="url(#epStrong)"/>
-          <ellipse cx="158" cy="118" rx="11" ry="11" fill="#00c0ff" filter="url(#epStrong)"/>
+          <ellipse cx="102" cy="118" rx="11" ry="11" fill="#00c0ff"/>
+          <ellipse cx="158" cy="118" rx="11" ry="11" fill="#00c0ff"/>
           <ellipse cx="104" cy="116" rx="5" ry="5" fill="#fff"/>
           <ellipse cx="160" cy="116" rx="5" ry="5" fill="#fff"/>
           <ellipse cx="106" cy="114" rx="2" ry="2" fill="#fff"/>
           <ellipse cx="162" cy="114" rx="2" ry="2" fill="#fff"/>
-          <path d="M86 102 Q102 94 118 100" stroke="#00d8ff" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#epGlow)"/>
-          <path d="M142 100 Q158 94 174 102" stroke="#00d8ff" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#epGlow)"/>
-          <ellipse cx="130" cy="230" rx="72" ry="56" fill="url(#epBodyGrad)" filter="url(#epGlow)"/>
+          <path d="M86 102 Q102 94 118 100" stroke="#00d8ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M142 100 Q158 94 174 102" stroke="#00d8ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="130" cy="230" rx="72" ry="56" fill="url(#epBodyGrad)"/>
           <ellipse cx="130" cy="238" rx="44" ry="36" fill="#60dfff" opacity="0.3"/>
-          <path d="M98 112 L101 118 L97 118 L102 126" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.8" filter="url(#epGlow)"/>
-          <path d="M154 112 L157 118 L153 118 L158 126" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.8" filter="url(#epGlow)"/>
-          <path d="M60 95 Q85 70 110 88" stroke="#00ffff" stroke-width="2" fill="none" opacity="0.6" stroke-dasharray="4 3" filter="url(#epStrong)"/>
-          <path d="M150 88 Q175 70 200 95" stroke="#00ffff" stroke-width="2" fill="none" opacity="0.6" stroke-dasharray="4 3" filter="url(#epStrong)"/>
+          <path d="M98 112 L101 118 L97 118 L102 126" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <path d="M154 112 L157 118 L153 118 L158 126" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <path d="M60 95 Q85 70 110 88" stroke="#00ffff" stroke-width="2" fill="none" opacity="0.6" stroke-dasharray="4 3"/>
+          <path d="M150 88 Q175 70 200 95" stroke="#00ffff" stroke-width="2" fill="none" opacity="0.6" stroke-dasharray="4 3"/>
         </svg>
       </div>
 
