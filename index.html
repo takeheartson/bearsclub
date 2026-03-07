@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roaring Bears – Rulers of the Midway</title>
+  <title>Roaring Bears Club – Chicago's #1 Bears Fan Club</title>
+  <meta name="description" content="Join the Roaring Bears — Chicago's most legendary Bears fan club. Free posters, exclusive membership, Bear Down forever. Only $6/month.">
+  <meta name="keywords" content="Chicago Bears fan club, Bears club, Roaring Bears, Chicago Bears, Bear Down, NFL fan club">
+  <meta property="og:title" content="Roaring Bears Club – Chicago's #1 Bears Fan Club">
+  <meta property="og:description" content="Join the Roaring Bears! Free posters, exclusive membership. Only $6/month. Bear Down.">
+  <meta property="og:url" content="https://takeheartson.github.io/bearsclub/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Roaring Bears Club – Chicago's #1 Bears Fan Club">
+  <meta name="twitter:description" content="Join the Roaring Bears! Free posters, exclusive membership. Only $6/month. Bear Down."
   <style>
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -767,6 +776,31 @@
       to   { transform: translateX(-100%); }
     }
 
+    .share-section {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    .share-title {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      color: #fff; letter-spacing: 3px; text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(200,56,3,0.6);
+      margin-bottom: 8px;
+    }
+    .share-sub {
+      font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 24px;
+    }
+    .share-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .share-btn {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase;
+      padding: 14px 32px; border-radius: 6px; cursor: pointer;
+      border: none; text-decoration: none; transition: transform 0.1s;
+    }
+    .share-btn:hover { transform: scale(1.05); }
+    .share-x { background: #000; color: #fff; border: 2px solid #fff; }
+    .share-copy { background: var(--orange); color: #fff; box-shadow: 0 0 20px rgba(200,56,3,0.5); }
     footer {
       position: relative;
       z-index: 1;
@@ -1505,6 +1539,14 @@
       </div>
     </section>
 
+    <div class="share-section reveal">
+      <div class="share-title">Spread the Word 🐻</div>
+      <div class="share-sub">Share the club with every Bears fan you know!</div>
+      <div class="share-buttons">
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=Join+the+Roaring+Bears+Club+%F0%9F%90%BB+Chicago%27s+%231+Bears+fan+club!+Free+posters%2C+only+%246%2Fmonth.+Bear+Down!&url=https://takeheartson.github.io/bearsclub/" target="_blank">Share on X</a>
+        <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('https://takeheartson.github.io/bearsclub/');this.textContent='Copied! ✓'">Copy Link</button>
+      </div>
+    </div>
 <footer>Roaring Bears &mdash; Rulers of the Midway &copy; 2026 &nbsp;&bull;&nbsp; Bear Down, Chicago Bears</footer>
   </div>
 
