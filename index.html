@@ -1191,7 +1191,6 @@
 </head>
 <body>
 
-  <canvas id="particles"></canvas>
 
   <!-- NAVBAR -->
   <nav id="navbar">
@@ -1209,8 +1208,6 @@
 
   <!-- ══ FULL-SCREEN HERO ══ -->
   <section id="hero">
-    <canvas id="sparks"></canvas>
-    <canvas id="stars"></canvas>
 
     <div class="hero-content">
 <div class="hero-eyebrow">★ &nbsp; The Official &nbsp; ★</div>
@@ -1787,91 +1784,6 @@
       draw();
     }
 
-    /* ── EMBER PARTICLES (full page) ── */
-    const pc = document.getElementById('particles');
-    const px = pc.getContext('2d');
-    let PW, PH, embers = [];
-    function resizeP() { PW = pc.width = window.innerWidth; PH = pc.height = window.innerHeight; }
-    resizeP();
-    window.addEventListener('resize', resizeP);
-    function newEmber() {
-      return { x: Math.random()*PW, y: PH+10, r: Math.random()*1.8+0.3,
-               speed: Math.random()*0.5+0.2, drift: (Math.random()-.5)*0.3,
-               alpha: Math.random()*0.4+0.05,
-               color: Math.random()>.5?'#C83803':'#FFB300' };
-    }
-    for(let i=0;i<25;i++){const e=newEmber();e.y=Math.random()*PH;embers.push(e);}
-    (function drawEmbers(){
-      px.clearRect(0,0,PW,PH);
-      for(const e of embers){
-        px.beginPath();px.arc(e.x,e.y,e.r,0,Math.PI*2);
-        px.fillStyle=e.color;px.globalAlpha=e.alpha;px.fill();
-        e.y-=e.speed;e.x+=e.drift;
-        if(e.y<-10)Object.assign(e,newEmber());
-      }
-      px.globalAlpha=1;
-      requestAnimationFrame(drawEmbers);
-    })();
-
-    /* ── HERO SPARKS ── */
-    const sc = document.getElementById('sparks');
-    const sx = sc.getContext('2d');
-    let SW, SH, sparks = [];
-    function resizeS(){SW=sc.width=sc.offsetWidth;SH=sc.height=sc.offsetHeight;}
-    resizeS();
-    window.addEventListener('resize', resizeS);
-    function newSpark(){
-      const angle = Math.random()*Math.PI*2;
-      const speed = Math.random()*3+1;
-      return {
-        x: SW/2+(Math.random()-.5)*SW*0.6,
-        y: SH*0.65+(Math.random()-.5)*SH*0.2,
-        vx: Math.cos(angle)*speed*(Math.random()>.5?1:-1),
-        vy: -(Math.random()*4+2),
-        life: 1,
-        decay: Math.random()*0.012+0.006,
-        r: Math.random()*2+0.5,
-        color: Math.random()>.6?'#FFB300':'#C83803',
-      };
-    }
-    for(let i=0;i<30;i++){const s=newSpark();s.life=Math.random();sparks.push(s);}
-    (function drawSparks(){
-      sx.clearRect(0,0,SW,SH);
-      for(const s of sparks){
-        sx.beginPath();sx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        sx.fillStyle=s.color;sx.globalAlpha=s.life*0.8;sx.fill();
-        s.x+=s.vx;s.y+=s.vy;s.vy+=0.06;s.life-=s.decay;
-        if(s.life<=0)Object.assign(s,newSpark());
-      }
-      sx.globalAlpha=1;
-      requestAnimationFrame(drawSparks);
-    })();
-
-    /* ── STARFIELD ── */
-    const stc = document.getElementById('stars');
-    const stx = stc.getContext('2d');
-    let STW, STH, stars = [];
-    function resizeSt(){ STW = stc.width = stc.offsetWidth; STH = stc.height = stc.offsetHeight; }
-    resizeSt();
-    window.addEventListener('resize', resizeSt);
-    for(let i=0;i<60;i++){
-      stars.push({ x:Math.random()*STW, y:Math.random()*STH,
-        r:Math.random()*1.2+0.2, speed:Math.random()*0.15+0.05,
-        twinkle:Math.random()*Math.PI*2 });
-    }
-    (function drawStars(){
-      stx.clearRect(0,0,STW,STH);
-      for(const s of stars){
-        s.twinkle += 0.03;
-        const a = 0.3 + Math.sin(s.twinkle)*0.3;
-        stx.beginPath(); stx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        stx.fillStyle='#fff'; stx.globalAlpha=a; stx.fill();
-        s.y += s.speed;
-        if(s.y > STH){ s.y=0; s.x=Math.random()*STW; }
-      }
-      stx.globalAlpha=1;
-      requestAnimationFrame(drawStars);
-    })();
 
     /* ── NAVBAR SCROLL EFFECT ── */
     window.addEventListener('scroll', () => {
