@@ -332,12 +332,12 @@
     }
 
     .hero-sweetness {
-      font-size: 0.7rem;
+      font-size: clamp(1.2rem, 4vw, 2rem);
       color: var(--gold);
-      letter-spacing: 6px;
+      letter-spacing: 8px;
       text-transform: uppercase;
-      margin-top: 4px;
-      opacity: 0.8;
+      margin-top: 8px;
+      text-shadow: 0 0 20px rgba(255,179,0,0.7);
     }
     .hero-sub {
       margin-top: 20px;
@@ -1272,8 +1272,8 @@
         <span class="line1">Roaring</span>
         <span class="line2">Bears</span>
       </h1>
-      <p class="hero-sweetness">Sweetness</p>
       <p class="hero-sub">Rulers of the Midway &nbsp;·&nbsp; Chicago &nbsp;·&nbsp; Est. 1920</p>
+      <p class="hero-sweetness">Sweetness</p>
       <div class="hero-buttons">
         <a class="btn-primary" href="join.html">Join the Club</a>
         <button class="btn-secondary" onclick="openExplore()">Explore &darr;</button>
