@@ -1791,6 +1791,8 @@
       entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
     },{threshold:0.12});
     document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('/bearsclub/sw.js');
   </script>
 
 </body>
