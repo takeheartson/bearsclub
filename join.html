@@ -267,6 +267,27 @@
       color: rgba(255,255,255,0.8);
     }
     .success-perk span { display: block; font-size: 1.6rem; margin-bottom: 6px; }
+    .mail-box {
+      background: rgba(200,56,3,0.15);
+      border: 2px solid var(--orange);
+      border-radius: 12px;
+      padding: 20px 30px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .mail-label {
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .mail-address {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: #fff; line-height: 1.8; letter-spacing: 1px;
+    }
+    .mail-note {
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-top: 12px;
+    }
     .success-btn {
       background: var(--orange); color: #fff;
       font-family: 'Arial Black', 'Impact', sans-serif; font-size: 1.1rem;
@@ -448,15 +469,17 @@
     <div class="success-title">Welcome to<br>the Club!</div>
     <div class="success-sub">You are now an official Roaring Bear</div>
     <div class="success-msg">
-      Your membership is confirmed.<br>
-      <strong>Free posters are on their way!</strong><br>
-      Bear Down. Ruler of the Midway. Fear the Paw.
+      You're in! Now complete your membership by<br>
+      <strong>mailing $6 cash</strong> to the address below.
     </div>
-    <div class="success-perks">
-      <div class="success-perk"><span>🖼️</span>Free Posters</div>
-      <div class="success-perk"><span>🐻</span>Member Card</div>
-      <div class="success-perk"><span>🏆</span>Club Access</div>
-      <div class="success-perk"><span>🔥</span>Bear Down</div>
+    <div class="mail-box">
+      <div class="mail-label">📬 Mail $6 cash to:</div>
+      <div class="mail-address">
+        Roaring Bears Club<br>
+        309 W Eugenie Street<br>
+        Chicago, Illinois 60614
+      </div>
+      <div class="mail-note">Once received, your free posters will be sent out!</div>
     </div>
     <a class="success-btn" href="bear-viking.html">Watch Bear vs Viking 🐻⚔️</a>
     <br><br>
