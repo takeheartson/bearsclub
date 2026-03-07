@@ -166,6 +166,35 @@
       margin-bottom: 10px;
       letter-spacing: -4px;
     }
+    .payton-section {
+      text-align: center;
+      padding: 20px 20px 60px;
+    }
+    .payton-label {
+      font-size: 0.7rem; letter-spacing: 10px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .payton-jersey {
+      width: clamp(160px, 40vw, 260px);
+      height: auto;
+      filter: drop-shadow(0 0 30px rgba(200,56,3,0.7)) drop-shadow(0 0 60px rgba(200,56,3,0.3));
+      animation: jerseyFloat 3s ease-in-out infinite;
+    }
+    @keyframes jerseyFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .payton-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      color: #fff; letter-spacing: 4px; text-transform: uppercase;
+      margin-top: 20px;
+      text-shadow: 0 0 30px rgba(200,56,3,0.6);
+    }
+    .payton-sub {
+      font-size: 0.75rem; letter-spacing: 6px; text-transform: uppercase;
+      color: var(--gold); margin-top: 8px;
+    }
     .joke-banner {
       max-width: 700px;
       margin: 0 auto 70px;
@@ -1215,6 +1244,31 @@
 
   <!-- ══ MAIN CONTENT ══ -->
   <div class="page-content" id="content">
+
+    <!-- WALTER PAYTON JERSEY -->
+    <section class="payton-section section-wrap reveal">
+      <div class="payton-label">★ &nbsp; Legend &nbsp; ★</div>
+      <svg class="payton-jersey" viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- jersey body -->
+        <path d="M55 70 L20 100 L35 115 L50 105 L50 240 L170 240 L170 105 L185 115 L200 100 L165 70 L145 55 Q130 65 110 65 Q90 65 75 55 Z" fill="#0B2040" stroke="#C83803" stroke-width="4"/>
+        <!-- sleeves -->
+        <path d="M55 70 Q75 55 110 65 Q90 65 75 55 L55 70" fill="#C83803"/>
+        <path d="M165 70 Q145 55 110 65 Q130 65 145 55 L165 70" fill="#C83803"/>
+        <!-- orange stripe on sleeves -->
+        <path d="M20 100 L35 115 L50 105 L55 70 L42 80 Z" fill="#C83803" opacity="0.6"/>
+        <path d="M200 100 L185 115 L170 105 L165 70 L178 80 Z" fill="#C83803" opacity="0.6"/>
+        <!-- collar -->
+        <ellipse cx="110" cy="66" rx="18" ry="10" fill="#0B2040" stroke="#C83803" stroke-width="3"/>
+        <!-- orange chest stripe -->
+        <rect x="50" y="110" width="120" height="14" fill="#C83803" rx="2"/>
+        <!-- number 34 -->
+        <text x="110" y="185" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="62" font-weight="900" fill="#fff" stroke="#C83803" stroke-width="2">34</text>
+        <!-- PAYTON name -->
+        <text x="110" y="232" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="16" font-weight="900" fill="#fff" letter-spacing="4">PAYTON</text>
+      </svg>
+      <div class="payton-name">Walter Payton</div>
+      <div class="payton-sub">Sweetness &nbsp;·&nbsp; #34 &nbsp;·&nbsp; Hall of Fame</div>
+    </section>
 
     <!-- MASCOT -->
     <section class="mascot-section section-wrap reveal">
