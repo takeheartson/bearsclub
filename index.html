@@ -153,6 +153,35 @@
       margin: 0 auto 70px;
       padding: 0 20px;
     }
+    .joke-banner {
+      max-width: 700px;
+      margin: 0 auto 70px;
+      padding: 28px 32px;
+      background: linear-gradient(135deg, #0e2f6a, #0B2040);
+      border: 2px solid rgba(200,56,3,0.5);
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(200,56,3,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+    }
+    .joke-cheese { font-size: 2.2rem; }
+    .joke-q {
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 6px;
+    }
+    .joke-a {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(255,179,0,0.5);
+    }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1319,6 +1348,16 @@
         </div>
       </div>
     </section>
+
+    <!-- JOKE BANNER -->
+    <div class="joke-banner reveal">
+      <span class="joke-cheese">🧀</span>
+      <div class="joke-text">
+        <div class="joke-q">Why are the Packers so stinky?</div>
+        <div class="joke-a">Because they cut the cheese! 😂</div>
+      </div>
+      <span class="joke-cheese">🧀</span>
+    </div>
 
     <!-- LEADERSHIP -->
     <section class="leadership-section section-wrap">
