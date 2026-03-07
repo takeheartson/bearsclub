@@ -1800,7 +1800,7 @@
                alpha: Math.random()*0.4+0.05,
                color: Math.random()>.5?'#C83803':'#FFB300' };
     }
-    for(let i=0;i<70;i++){const e=newEmber();e.y=Math.random()*PH;embers.push(e);}
+    for(let i=0;i<25;i++){const e=newEmber();e.y=Math.random()*PH;embers.push(e);}
     (function drawEmbers(){
       px.clearRect(0,0,PW,PH);
       for(const e of embers){
@@ -1834,7 +1834,7 @@
         color: Math.random()>.6?'#FFB300':'#C83803',
       };
     }
-    for(let i=0;i<80;i++){const s=newSpark();s.life=Math.random();sparks.push(s);}
+    for(let i=0;i<30;i++){const s=newSpark();s.life=Math.random();sparks.push(s);}
     (function drawSparks(){
       sx.clearRect(0,0,SW,SH);
       for(const s of sparks){
@@ -1854,7 +1854,7 @@
     function resizeSt(){ STW = stc.width = stc.offsetWidth; STH = stc.height = stc.offsetHeight; }
     resizeSt();
     window.addEventListener('resize', resizeSt);
-    for(let i=0;i<180;i++){
+    for(let i=0;i<60;i++){
       stars.push({ x:Math.random()*STW, y:Math.random()*STH,
         r:Math.random()*1.2+0.2, speed:Math.random()*0.15+0.05,
         twinkle:Math.random()*Math.PI*2 });
