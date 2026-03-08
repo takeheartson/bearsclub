@@ -1899,7 +1899,7 @@
     },{threshold:0.12});
     document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-    if('serviceWorker' in navigator) navigator.serviceWorker.register('/bearsclub/sw.js');
+    if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
   </script>
 
 </body>
