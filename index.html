@@ -873,6 +873,47 @@
       transition: transform 0.1s;
     }
     .tshirt-btn:hover { transform: scale(1.05); }
+    #leadership-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+    }
+    #leadership-overlay.open { display: flex; }
+    .lead-box {
+      text-align: center; padding: 40px 30px; position: relative;
+      max-width: 500px; width: 92%;
+    }
+    .lead-c {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: clamp(10rem, 30vw, 18rem);
+      color: #C83803; line-height: 1;
+      text-shadow: 0 0 60px rgba(200,56,3,0.8), 8px 8px 0 #fff, 10px 10px 0 #0B2040;
+      position: relative;
+    }
+    .lead-names {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; gap: 8px; width: 60%;
+    }
+    .lead-person {
+      display: flex; flex-direction: column;
+    }
+    .lead-name {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+      color: #fff; letter-spacing: 3px; text-transform: uppercase;
+    }
+    .lead-role {
+      font-size: 0.55rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lead-close {
+      margin-top: 20px;
+      background: transparent; border: 2px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.6); font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      padding: 10px 28px; border-radius: 6px; cursor: pointer;
+    }
+    .lead-close:hover { border-color: #fff; color: #fff; }
     .bottom-gobears {
       text-align: center;
       font-family: 'Arial Black', Impact, sans-serif;
@@ -1326,7 +1367,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="#content">About</a></li>
-      <li><a href="#content">Leadership</a></li>
+      <li><a href="javascript:void(0)" onclick="openLeadership()">Leadership</a></li>
       <li><a href="#content">Follow</a></li>
     </ul>
     <a class="nav-badge" href="#content">Join $6/mo</a>
@@ -1667,6 +1708,20 @@
     </span>
   </div>
 
+  <!-- LEADERSHIP OVERLAY -->
+  <div id="leadership-overlay">
+    <div class="lead-box">
+      <div class="lead-c">C</div>
+      <div class="lead-names">
+        <div class="lead-person"><span class="lead-name">William</span><span class="lead-role">President</span></div>
+        <div class="lead-person"><span class="lead-name">Jaiyen</span><span class="lead-role">President</span></div>
+        <div class="lead-person"><span class="lead-name">Henry</span><span class="lead-role">Vice President</span></div>
+        <div class="lead-person"><span class="lead-name">Talon</span><span class="lead-role">Co-Founder</span></div>
+      </div>
+      <button class="lead-close" onclick="document.getElementById('leadership-overlay').classList.remove('open')">Close ✕</button>
+    </div>
+  </div>
+
   <!-- JOIN CHOICE MODAL -->
   <div id="join-modal">
     <div class="join-modal-box">
@@ -1863,6 +1918,9 @@
 
   <script>
     /* ── JOIN MODAL ── */
+    function openLeadership() {
+      document.getElementById('leadership-overlay').classList.add('open');
+    }
     function openJoin() {
       document.getElementById('join-modal').classList.add('open');
     }
