@@ -1,4 +1,4 @@
-const CACHE = 'bearsclub-v1';
+const CACHE = 'bearsclub-v2';
 const FILES = ['/', '/index.html', '/join.html', '/bears/index.html', '/qr.png', '/Copilot_20260305_184201.png'];
 
 self.addEventListener('install', e => {
